@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@fluentui/react": "^8.0.0",
-    "buffer": "^6.0.3",
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.6.0",
     "merge": "^2.1.1",

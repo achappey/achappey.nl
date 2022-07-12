@@ -1,6 +1,5 @@
 import React from 'react';
-import { Image, Link, Stack, StackItem } from '@fluentui/react';
-import { IPersonaSharedProps, Persona, PersonaPresence, PersonaSize } from '@fluentui/react/lib/Persona';
+import { Link, IPersonaSharedProps, Persona, PersonaPresence, PersonaSize } from '@fluentui/react';
 
 export const Home: React.FunctionComponent = () => {
   const examplePersona: IPersonaSharedProps = {
