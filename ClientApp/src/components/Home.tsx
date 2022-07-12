@@ -3,7 +3,7 @@ import { Link, IPersonaSharedProps, Persona, PersonaPresence, PersonaSize } from
 
 export const Home: React.FunctionComponent = () => {
   const examplePersona: IPersonaSharedProps = {
-    imageUrl: "https://localhost:44458/achappey.jpg",
+    imageUrl: "https://achappey.nl/achappey.jpg",
     imageInitials: 'AB',
     text: 'Arthur Bleij',
     secondaryText: 'Full Stack Developer',
