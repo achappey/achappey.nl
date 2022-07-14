@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using achappey.Services;
+using achappey.Connectors.WakaTime;
 using Octokit;
 
 var odataEndpoint = "odata";
@@ -25,6 +26,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<achappeyService>();
+builder.Services.AddSingleton<WakaTimeClient>();
 builder.Services.AddSingleton<GitHubClient>(x => new GitHubClient(new ProductHeaderValue("achappey.nl")));
 builder.Services.AddAutoMapper(typeof(achappey.GitHubProfile));
 
@@ -73,6 +75,7 @@ static IEdmModel GetGraphModel(string name)
     ODataConventionModelBuilder builder = new();
 
     builder.EntitySet<achappey.Models.Repository>("Repositories").EntityType.Namespace = name;
+    builder.EntitySet<achappey.Models.Language>("Languages").EntityType.Namespace = name;
 
     builder.Namespace = name;
 

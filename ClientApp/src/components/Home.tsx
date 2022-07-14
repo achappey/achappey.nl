@@ -7,7 +7,7 @@ export const Home: React.FunctionComponent = () => {
     imageInitials: 'AB',
     text: 'Arthur Bleij',
     secondaryText: 'Full Stack Developer',
-    tertiaryText: 'Azure, C#, Microsoft 365, React, Angular, Power Platform',
+    tertiaryText: 'Azure, C#, React, Angular, Microsoft 365, Power Platform',
   };
   
   return (
@@ -19,7 +19,7 @@ export const Home: React.FunctionComponent = () => {
         hidePersonaDetails={false}
         imageAlt="Arthur Bleij"
       />
-          <p>Freelance, entrepreneurial full stack developer. Avid follower of technology and passionate about code. Specialize in developing modern, responsive, cloud-based web applications.
+          <p>Freelance, entrepreneurial, full stack developer. Avid follower of technology and passionate about code. Specialize in developing modern, responsive, cloud-based web applications.
           </p>
           <p>
             Skilled and experienced on a broad range of frameworks and stacks. Strong focus on delivering seamless integrated solutions and always try to leverage the used platforms and frameworks to the maximum.

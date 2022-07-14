@@ -21,6 +21,12 @@ export const SideNavigation: React.FunctionComponent = () => {
                     icon: 'ProductList'
                 },
                 {
+                    name: 'Languages',
+                    url: '/languages',
+                    key: '/languages',
+                    icon: 'Comment'
+                },
+                {
                     name: 'Swagger',
                     url: '/swagger',
                     key: '/swagger',
@@ -31,8 +37,7 @@ export const SideNavigation: React.FunctionComponent = () => {
         },
     ], []);
 
-    return <Nav
-        selectedKey={pathname}
+    return <Nav selectedKey={pathname}
         groups={navLinkGroups}
     />
 }

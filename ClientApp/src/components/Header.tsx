@@ -1,8 +1,12 @@
-import { Breadcrumb, Stack, StackItem } from "@fluentui/react"
+import { Breadcrumb, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
 import { useMemo } from "react";
 import { useLocation } from "react-router";
 
-export const Header: React.FunctionComponent = () => {
+export interface IHeader {
+    toggleMenu: () => void
+}
+
+export const Header: React.FunctionComponent<IHeader> = (props) => {
     const { pathname } = useLocation();
 
     const items = useMemo(() => {
@@ -15,7 +19,16 @@ export const Header: React.FunctionComponent = () => {
         return result;
     }, [pathname]);
 
+    const menuIcon: IIconProps = {
+        iconName: "CollapseMenu"
+    }
+
     return <Stack horizontal={true}>
+        <StackItem>
+            <div style={{paddingTop: 16 }}>
+                <IconButton onClick={props.toggleMenu} iconProps={menuIcon} />
+            </div>
+        </StackItem>
         <StackItem grow={1}>
             <Breadcrumb items={items} />
         </StackItem>
