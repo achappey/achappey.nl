@@ -11,7 +11,9 @@ public class Repository
 
     public string? Language { get; set; }
 
-    public string CreatedAt { get; set; } = null!;
+    public DateTimeOffset CreatedAt { get; set; }
+
+    public DateTimeOffset UpdatedAt { get; set; }
  
 
 }

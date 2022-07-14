@@ -14,6 +14,7 @@ export const Layout: React.FunctionComponent = () => {
   const [showMenu, setShowMenu] = useState(matches);
 
   const toggleMenu = useCallback(() => setShowMenu(!showMenu), [showMenu]);
+  const contentStyle = { paddingLeft: 20, paddingTop: 20, width: "100%" };
 
   return (<>
     <Stack>
@@ -25,7 +26,7 @@ export const Layout: React.FunctionComponent = () => {
       {showMenu && <StackItem>
         <SideNavigation />
       </StackItem>}
-      <StackItem style={{ paddingLeft: 20 }}>
+      <StackItem style={contentStyle}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/repositories' element={<Repositories />} />

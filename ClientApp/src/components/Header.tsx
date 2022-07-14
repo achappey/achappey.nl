@@ -1,6 +1,7 @@
 import { Breadcrumb, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
 import { useMemo } from "react";
 import { useLocation } from "react-router";
+import { SocialLinks } from "./SocialLinks";
 
 export interface IHeader {
     toggleMenu: () => void
@@ -24,15 +25,14 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
     }
 
     return <Stack horizontal={true}>
-        <StackItem>
-            <div style={{paddingTop: 16 }}>
-                <IconButton onClick={props.toggleMenu} iconProps={menuIcon} />
-            </div>
+        <StackItem style={{ paddingTop: 16 }}>
+            <IconButton onClick={props.toggleMenu} iconProps={menuIcon} />
         </StackItem>
         <StackItem grow={1}>
             <Breadcrumb items={items} />
         </StackItem>
-        <StackItem align="end">
+        <StackItem>
+            <SocialLinks />
         </StackItem>
     </Stack>
 }

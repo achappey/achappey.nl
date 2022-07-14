@@ -15,6 +15,22 @@ public class achappeyService
 
     private readonly IConfiguration _config;
 
+    private IEnumerable<Language> baseLanguages = new List<Language>() {
+        new Language() {
+            Code = "nl",
+            Name = "Dutch",
+            Points = 999999,
+            Level = 27
+        },
+        new Language() {
+            Code = "gb",
+            Name = "English",
+            Points = 100000,
+            Level = 26
+        }
+
+    };
+
     public achappeyService(
         HttpClient client, Octokit.GitHubClient github, IMapper mapper, WakaTimeClient wakaTime, IConfiguration config)
 
@@ -30,11 +46,15 @@ public class achappeyService
     {
         var items = await this._github.Repository.GetAllForUser("achappey");
 
-        return items.Select(t => this._mapper.Map<Repository>(t));
+        return items
+        .OrderByDescending(a => a.UpdatedAt)
+        .Select(t => this._mapper.Map<Repository>(t));
     }
 
-    public async Task<IEnumerable<Language>?> GetLanguages()
+    public async Task<IEnumerable<Language>> GetLanguages()
     {
+        var languages = baseLanguages.ToList();
+
         var key = this._config.GetValue<string>("Duolingo");
 
         if (key != null)
@@ -42,9 +62,12 @@ public class achappeyService
             var result = await this._httpClient.GetFromJsonAsync<IEnumerable<Language>>(
                string.Format("https://duolingonator.net/api/languages?x-api-key={0}", key));
 
-               return result?.OrderByDescending(g => g.Points);
+            if (result != null)
+            {
+                languages.AddRange(result.OrderByDescending(g => g.Points));
+            }
         }
 
-        return null;
+        return languages;
     }
 }
