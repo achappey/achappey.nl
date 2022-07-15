@@ -29,7 +29,7 @@ export const Home: React.FunctionComponent = () => {
   });
 
   const activity = activeLanguage?.calendar?.slice(0, 20).map((a: any) => {
-    const skill = activeLanguage?.skills?.find((z: any) => z.id == a.skill);
+    const skill = activeLanguage?.skills?.find((z: any) => z.id === a.skill);
     const activityDescription = [
       <span key={a.dateTime}> {`${activeLanguage?.language} ${a.eventType}: ${skill.name}`} </span>
     ];
