@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityItem, Icon, IPersonaSharedProps, Persona, PersonaPresence, PersonaSize, Shimmer, ShimmerElementsGroup, ShimmerElementType, Stack, StackItem } from '@fluentui/react';
+import { ActivityItem, Icon, IPersonaSharedProps, Persona, PersonaPresence, PersonaSize, Shimmer, Stack, StackItem } from '@fluentui/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useLanguages } from '../hooks/useLanguages';
 import { LanguageFlag } from '../components/LanguageFlag';

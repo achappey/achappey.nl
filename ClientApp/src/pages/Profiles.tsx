@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { List, Image, Link } from '@fluentui/react';
 import { socials } from '../config/profile';
 
-export const Profiles: React.FunctionComponent = () => {
-  const linkProperties = { target: "blank" }
+const linkProperties = { target: "blank" }
 
+export const Profiles: React.FunctionComponent = () => {
   const onRenderCell = useCallback((item: any, index: number | undefined) => {
     return (
       <div style={{ display: "flex", paddingBottom: 18 }}>

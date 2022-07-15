@@ -16,7 +16,7 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
         const result: IBreadcrumbItem[] = [{ key: "root", text: "achappey", href: pathname.length > 1 ? "/" : undefined }];
 
         if (pathname.length > 1) {
-            const page = navigation.find(t => t.url == pathname);
+            const page = navigation.find(t => t.url === pathname);
 
             if (page !== undefined) {
                 result.push({ key: pathname, text: page.name });
