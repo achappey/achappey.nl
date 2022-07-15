@@ -9,11 +9,14 @@ public class achappeyService
     private readonly Octokit.GitHubClient _github;
 
     private readonly WakaTimeClient _wakaTime;
+
     private readonly HttpClient _httpClient;
 
     private readonly IMapper _mapper;
 
     private readonly IConfiguration _config;
+
+    private const string DUOLINGONATOR = "https://duolingonator.net/api";
 
     private IEnumerable<Language> baseLanguages = new List<Language>() {
         new Language() {
@@ -60,7 +63,7 @@ public class achappeyService
         if (key != null)
         {
             var result = await this._httpClient.GetFromJsonAsync<IEnumerable<Language>>(
-               string.Format("https://duolingonator.net/api/languages?x-api-key={0}", key));
+               string.Format("{1}/languages?x-api-key={0}", key, DUOLINGONATOR));
 
             if (result != null)
             {
@@ -69,5 +72,18 @@ public class achappeyService
         }
 
         return languages;
+    }
+
+    public async Task<ActiveLanguage?> GetActiveLanguage()
+    {
+        var key = this._config.GetValue<string>("Duolingo");
+
+        if (key != null)
+        {
+            return await this._httpClient.GetFromJsonAsync<ActiveLanguage>(
+               string.Format("{1}/activeLanguage?x-api-key={0}", key, DUOLINGONATOR));
+        }
+
+        return null;
     }
 }

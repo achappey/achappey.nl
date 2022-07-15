@@ -1,4 +1,4 @@
-import { Breadcrumb, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
+import { Breadcrumb, IBreadcrumbItem, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
 import { useMemo } from "react";
 import { useLocation } from "react-router";
 import { SocialLinks } from "./SocialLinks";
@@ -11,7 +11,7 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
     const { pathname } = useLocation();
 
     const items = useMemo(() => {
-        const result = [{ key: "root", text: "achappey" }];
+        const result: IBreadcrumbItem[] = [{ key: "root", text: "achappey", href: pathname.length > 1 ? "/" : undefined }];
 
         if (pathname.length > 1) {
             result.push({ key: pathname, text: pathname[1].toUpperCase() + pathname.substring(2) });

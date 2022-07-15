@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router';
 import { Home } from './Home';
 
 import { Stack, StackItem } from '@fluentui/react';
-import { Header } from './Header';
-import { SideNavigation } from './SideNavigation';
+import { Header } from '../components/Header';
+import { SideNavigation } from '../components/SideNavigation';
 import { Repositories } from './Repositories';
 import { Languages } from './Languages';
 import { useMediaQuery } from 'usehooks-ts'

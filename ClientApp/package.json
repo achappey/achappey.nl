@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@fluentui/react": "^8.0.0",
+    "@microsoft/applicationinsights-react-js": "^3.3.5",
+    "@microsoft/applicationinsights-web": "^2.8.5",
     "@types/react-world-flags": "^1.4.2",
     "http-proxy-middleware": "^0.19.1",
     "javascript-time-ago": "^2.5.6",

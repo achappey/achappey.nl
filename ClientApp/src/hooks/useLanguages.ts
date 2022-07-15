@@ -3,6 +3,7 @@ import { useSessionStorage } from "usehooks-ts";
 
 export const useLanguages = () => {
     const [languages, setLanguages] = useSessionStorage<any[] | undefined>('languages', undefined);
+    const [activeLanguage, setActiveLanguage] = useSessionStorage<any | undefined>('activeLanguage', undefined);
   
     useEffect(() => {
         if(languages == null) {
@@ -12,5 +13,13 @@ export const useLanguages = () => {
         }
     }, [languages, setLanguages])
 
-    return { languages };
+    useEffect(() => {
+        if(activeLanguage == null) {
+            fetch('/api/activeLanguage')
+            .then(resp => resp.json())
+            .then(resp => setActiveLanguage(resp))
+        }
+    }, [activeLanguage, setActiveLanguage])
+
+    return { languages, activeLanguage };
 }
