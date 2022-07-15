@@ -4,10 +4,25 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useLanguages } from '../hooks/useLanguages';
 import { LanguageFlag } from '../components/LanguageFlag';
 import ReactTimeAgo from 'react-time-ago';
+import { useActivities } from '../hooks/useActivities';
+
+const sourceToIcon = (source: string) => {
+  switch (source) {
+    case "GITHUB":
+      return "ProductRelease";
+    case "DUOLINGO":
+      return "Education";
+    case "WAKATIME":
+      return "Code";
+    default:
+      return "";
+  }
+}
 
 export const Home: React.FunctionComponent = () => {
   const matches = useMediaQuery('(min-width: 768px)')
-  const { languages, activeLanguage } = useLanguages();
+  const languages = useLanguages();
+  const activities = useActivities();
 
   const size: PersonaSize = matches ? PersonaSize.size72 : PersonaSize.size56;
 
@@ -24,20 +39,15 @@ export const Home: React.FunctionComponent = () => {
     <LanguageFlag name={a.name} code={a.code} />
   </StackItem>);
 
-  activeLanguage?.calendar?.sort((a: any, b: any) => {
-    return new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime();
-  });
-
-  const activity = activeLanguage?.calendar?.slice(0, 20).map((a: any) => {
-    const skill = activeLanguage?.skills?.find((z: any) => z.id === a.skill);
+  const activity = activities?.slice(0, 50).map((a: any) => {
     const activityDescription = [
-      <span key={a.dateTime}> {`${activeLanguage?.language} ${a.eventType}: ${skill.name}`} </span>
+      <span key={a.id}> {a.title} </span>
     ];
 
-    return <StackItem key={a.dateTime}>
+    return <StackItem key={a.id}>
       <ActivityItem activityDescription={activityDescription}
-        timeStamp={<ReactTimeAgo date={a.dateTime} />}
-        activityIcon={<Icon iconName={'Education'} />} />
+        timeStamp={<ReactTimeAgo date={a.createdAt} />}
+        activityIcon={<Icon iconName={sourceToIcon(a.source)} />} />
     </StackItem>
   });
 
