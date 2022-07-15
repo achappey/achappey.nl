@@ -9,7 +9,7 @@ const columns: IColumn[] = [{ key: "code", name: "", fieldName: "code", minWidth
 { name: "Level", fieldName: "level", key: "level", minWidth: 50, maxWidth: 100 }];
 
 export const Languages: React.FunctionComponent = () => {
-  const { languages } = useLanguages();
+  const languages = useLanguages();
 
   const _renderItemColumn = (item: any, index: number | undefined, column: IColumn | undefined) => {
     const fieldContent = item[column?.fieldName as keyof any] as string;

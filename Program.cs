@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
@@ -25,10 +26,14 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddHttpClient();
+
 builder.Services.AddSingleton<achappeyService>();
 builder.Services.AddSingleton<WakaTimeClient>();
 builder.Services.AddSingleton<GitHubClient>(x => new GitHubClient(new ProductHeaderValue("achappey.nl")));
-builder.Services.AddAutoMapper(typeof(achappey.GitHubProfile));
+
+builder.Services.AddAutoMapper(typeof(achappey.GitHubProfile), typeof(achappey.DuolingoProfile));
+
+builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddControllers()
     .AddOData(opt => opt.AddRouteComponents(odataEndpoint, GetGraphModel("achappey"))

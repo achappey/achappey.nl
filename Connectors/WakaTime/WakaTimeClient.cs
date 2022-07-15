@@ -31,9 +31,18 @@ public class WakaTimeClient
     {
         var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(apiKey);
 
-        _httpClient.DefaultRequestHeaders.Add("Authorization", string.Format("Basic {0}", System.Convert.ToBase64String(plainTextBytes)));
+        var httpRequestMessage = new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri(BaseAddress + url),
+            Headers = {
+                { System.Net.HttpRequestHeader.Accept.ToString(), "application/json" },
+                { System.Net.HttpRequestHeader.ContentType.ToString(), "application/json" },
+                { "Authorization", string.Format("Basic {0}", System.Convert.ToBase64String(plainTextBytes)) }
+            }
+        };
 
-        var getUserDataResult = await _httpClient.GetAsync(url);
+        var getUserDataResult = await _httpClient.SendAsync(httpRequestMessage);
 
         getUserDataResult.EnsureSuccessStatusCode();
 

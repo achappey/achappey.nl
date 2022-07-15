@@ -16,6 +16,8 @@ public class achappeyService
 
     private readonly IConfiguration _config;
 
+    private const string GITHUB_USERNAME = "achappey";
+
     private const string DUOLINGONATOR = "https://duolingonator.net/api";
 
     private IEnumerable<Language> baseLanguages = new List<Language>() {
@@ -47,11 +49,32 @@ public class achappeyService
 
     public async Task<IEnumerable<Repository>> GetRepositories()
     {
-        var items = await this._github.Repository.GetAllForUser("achappey");
+        var items = await this._github.Repository.GetAllForUser(GITHUB_USERNAME);
 
         return items
         .OrderByDescending(a => a.UpdatedAt)
         .Select(t => this._mapper.Map<Repository>(t));
+    }
+
+    public async Task<IEnumerable<Activity>> GetActivities()
+    {
+        var eventItems = await this._github.Activity.Events.GetAllUserPerformed(GITHUB_USERNAME);
+
+        var mappedEvents = eventItems
+        .Select(t => this._mapper.Map<Activity>(t))
+        .ToList();
+
+        mappedEvents.AddRange(await this.GetCodingActivity());
+
+        var activeLanguage = await this.GetActiveLanguage();
+
+        if (activeLanguage != null)
+        {
+            mappedEvents.AddRange(this._mapper.Map<IEnumerable<Activity>>(activeLanguage));
+        }
+
+        return mappedEvents
+        .OrderByDescending(a => a.CreatedAt);
     }
 
     public async Task<IEnumerable<Language>> GetLanguages()
@@ -74,7 +97,7 @@ public class achappeyService
         return languages;
     }
 
-    public async Task<ActiveLanguage?> GetActiveLanguage()
+    private async Task<ActiveLanguage?> GetActiveLanguage()
     {
         var key = this._config.GetValue<string>("Duolingo");
 
@@ -85,5 +108,28 @@ public class achappeyService
         }
 
         return null;
+    }
+
+    private async Task<IEnumerable<Activity>> GetCodingActivity()
+    {
+        var items = new List<Activity>();
+
+        var durationsYesterday = await this._wakaTime.GetHeartBeats(this._config.GetValue<string>("WakaTime"), DateTime.Now.AddDays(-1));
+        var durationsToday = await this._wakaTime.GetHeartBeats(this._config.GetValue<string>("WakaTime"), DateTime.Now);
+
+        if (durationsYesterday != null)
+        {
+            items.AddRange(
+                durationsYesterday.Select(a => this._mapper.Map<Activity>(a)));
+        }
+
+        if (durationsToday != null)
+        {
+            items.AddRange(
+                durationsToday.Select(a => this._mapper.Map<Activity>(a)));
+        }
+
+        return items.GroupBy(v => v.Title).Select(b => b.OrderByDescending(z => z.CreatedAt).First());
+
     }
 }

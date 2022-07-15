@@ -1,6 +1,8 @@
-import { Breadcrumb, IBreadcrumbItem, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
+import { Breadcrumb, IBreadcrumbItem, Stack, StackItem } from "@fluentui/react"
 import { useMemo } from "react";
 import { useLocation } from "react-router";
+import { useMediaQuery } from "usehooks-ts";
+import { MenuButton } from "./MenuButton";
 import { SocialLinks } from "./SocialLinks";
 
 export interface IHeader {
@@ -8,6 +10,7 @@ export interface IHeader {
 }
 
 export const Header: React.FunctionComponent<IHeader> = (props) => {
+    const largeScreen = useMediaQuery('(min-width: 768px)')
     const { pathname } = useLocation();
 
     const items = useMemo(() => {
@@ -20,19 +23,18 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
         return result;
     }, [pathname]);
 
-    const menuIcon: IIconProps = {
-        iconName: "CollapseMenu"
-    }
-
     return <Stack horizontal={true}>
-        <StackItem style={{ paddingTop: 16 }}>
-            <IconButton onClick={props.toggleMenu} iconProps={menuIcon} />
-        </StackItem>
+        {largeScreen && <StackItem style={{ paddingTop: 16 }}>
+            <MenuButton toggle={props.toggleMenu} />
+        </StackItem>}
         <StackItem grow={1}>
             <Breadcrumb items={items} />
         </StackItem>
-        <StackItem>
+        <StackItem style={{ paddingTop: 16 }}>
             <SocialLinks />
         </StackItem>
+        {!largeScreen && <StackItem style={{ paddingLeft: 8, paddingTop: 16 }}>
+            <MenuButton toggle={props.toggleMenu} />
+        </StackItem>}
     </Stack>
 }

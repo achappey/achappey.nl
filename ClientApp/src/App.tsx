@@ -10,16 +10,18 @@ TimeAgo.addDefaultLocale(en)
 
 initializeIcons();
 
-var reactPlugin = new ReactPlugin();
-var appInsights = new ApplicationInsights({
+if (process.env.REACT_APP_APPINSIGHTS) {
+  var reactPlugin = new ReactPlugin();
+  var appInsights = new ApplicationInsights({
     config: {
-        instrumentationKey: process.env.REACT_APP_APPINSIGHTS,
-        enableAutoRouteTracking: true,
-        extensions: [reactPlugin]
+      instrumentationKey: process.env.REACT_APP_APPINSIGHTS,
+      enableAutoRouteTracking: true,
+      extensions: [reactPlugin]
     }
-});
+  });
 
-appInsights.loadAppInsights();
+  appInsights.loadAppInsights();
+}
 
 export default class App extends Component {
 
