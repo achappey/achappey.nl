@@ -1,0 +1,8 @@
+
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+
+export const initTimeAgo = () => {
+    TimeAgo.addDefaultLocale(en)
+}
+

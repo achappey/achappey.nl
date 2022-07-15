@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { DetailsList, IColumn, Link, SelectionMode, Spinner } from '@fluentui/react';
 import ReactTimeAgo from 'react-time-ago';
 
-const columns: IColumn[] = [{ key: "name", name: "Name", fieldName: "name", minWidth: 150 },
-{ name: "Language", fieldName: "language", key: "language", minWidth: 100 },
-{ name: "Updated at", fieldName: "updatedAt", key: "updatedAt", minWidth: 200 }];
+const columns: IColumn[] = [
+  { key: "name", name: "Name", fieldName: "name", minWidth: 150 },
+  { name: "Language", fieldName: "language", key: "language", minWidth: 100 },
+  { name: "Updated at", fieldName: "updatedAt", key: "updatedAt", minWidth: 200 }
+];
 
 export const Repositories: React.FunctionComponent = () => {
   const [repositories, setRepositories] = useState(null);

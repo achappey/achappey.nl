@@ -8,13 +8,14 @@ import { SideNavigation } from '../components/SideNavigation';
 import { Repositories } from './Repositories';
 import { Languages } from './Languages';
 import { useMediaQuery } from 'usehooks-ts'
+import { Profiles } from './Profiles';
 
 export const Layout: React.FunctionComponent = () => {
   const largeScreen = useMediaQuery('(min-width: 768px)')
   const [showMenu, setShowMenu] = useState(largeScreen);
 
   const toggleMenu = useCallback(() => setShowMenu(!showMenu), [showMenu]);
-  const contentStyle = { paddingLeft: 20, paddingTop: 20, width: "100%" };
+  const contentStyle = { paddingLeft: 16, paddingTop: 16, width: "100%" };
 
   return (<>
     <Stack verticalFill={true}>
@@ -31,6 +32,7 @@ export const Layout: React.FunctionComponent = () => {
               <Route path='/' element={<Home />} />
               <Route path='/repositories' element={<Repositories />} />
               <Route path='/languages' element={<Languages />} />
+              <Route path='/profiles' element={<Profiles />} />
             </Routes>
           </StackItem>
           <Panel isOpen={showMenu && !largeScreen}

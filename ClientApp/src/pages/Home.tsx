@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityItem, Icon, IPersonaSharedProps, Persona, PersonaPresence, PersonaSize, Stack, StackItem } from '@fluentui/react';
+import { ActivityItem, Icon, IPersonaSharedProps, Persona, PersonaPresence, PersonaSize, Shimmer, ShimmerElementsGroup, ShimmerElementType, Stack, StackItem } from '@fluentui/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useLanguages } from '../hooks/useLanguages';
 import { LanguageFlag } from '../components/LanguageFlag';
@@ -33,13 +33,12 @@ export const Home: React.FunctionComponent = () => {
     secondaryText: 'Full Stack Developer',
     tertiaryText: 'Azure, C#, React, Angular, Microsoft 365, Power Platform',
   };
-
   const flags = languages?.map(a => <StackItem key={a.code}
     style={{ minWidth: 50, paddingBottom: 8 }}>
     <LanguageFlag name={a.name} code={a.code} />
   </StackItem>);
 
-  const activity = activities?.slice(0, 50).map((a: any) => {
+  const activity = activities?.slice(0, 25).map((a: any) => {
     const activityDescription = [
       <span key={a.id}> {a.title} </span>
     ];
@@ -65,7 +64,8 @@ export const Home: React.FunctionComponent = () => {
             />
           </StackItem>
           <StackItem>
-            <p>Freelance, entrepreneurial, full stack developer. Avid follower of technology and passionate about code. Specialize in developing modern, responsive, cloud-based web applications.
+            <p>
+              Freelance, entrepreneurial, full stack developer. Avid follower of technology and passionate about code. Specialize in developing modern, responsive, cloud-based web applications.
             </p>
             <p>
               Skilled and experienced on a broad range of frameworks and stacks. Strong focus on delivering seamless integrated solutions and always try to leverage the used platforms and frameworks to the maximum.
@@ -73,12 +73,12 @@ export const Home: React.FunctionComponent = () => {
           </StackItem>
           <StackItem>
             <h4>Activity</h4>
-            <Stack>{activity}</Stack>
+            <Stack>{activity ? activity : <Shimmer width={150} />}</Stack>
           </StackItem>
         </Stack>
       </StackItem>
       <StackItem>
-        <Stack>{flags}</Stack>
+        <Stack>{flags ? flags : <Shimmer width={50} />}</Stack>
       </StackItem>
     </Stack>
   );

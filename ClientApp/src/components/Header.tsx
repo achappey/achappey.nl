@@ -1,9 +1,8 @@
-import { Breadcrumb, IBreadcrumbItem, Stack, StackItem } from "@fluentui/react"
+import { Breadcrumb, IBreadcrumbItem, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
 import { useMemo } from "react";
 import { useLocation } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
-import { MenuButton } from "./MenuButton";
-import { SocialLinks } from "./SocialLinks";
+import { navigation } from "../config/navigation";
 
 export interface IHeader {
     toggleMenu: () => void
@@ -17,24 +16,37 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
         const result: IBreadcrumbItem[] = [{ key: "root", text: "achappey", href: pathname.length > 1 ? "/" : undefined }];
 
         if (pathname.length > 1) {
-            result.push({ key: pathname, text: pathname[1].toUpperCase() + pathname.substring(2) });
+            const page = navigation.find(t => t.url == pathname);
+
+            if (page !== undefined) {
+                result.push({ key: pathname, text: page.name });
+            }
         }
 
         return result;
     }, [pathname]);
 
+    const menuIcon: IIconProps = {
+        iconName: "CollapseMenu"
+    }
+
     return <Stack horizontal={true}>
         {largeScreen && <StackItem style={{ paddingTop: 16 }}>
-            <MenuButton toggle={props.toggleMenu} />
+            <IconButton
+                onClick={props.toggleMenu}
+                iconProps={menuIcon}
+            />
         </StackItem>}
         <StackItem grow={1}>
             <Breadcrumb items={items} />
         </StackItem>
         <StackItem style={{ paddingTop: 16 }}>
-            <SocialLinks />
         </StackItem>
         {!largeScreen && <StackItem style={{ paddingLeft: 8, paddingTop: 16 }}>
-            <MenuButton toggle={props.toggleMenu} />
+            <IconButton
+                onClick={props.toggleMenu}
+                iconProps={menuIcon}
+            />
         </StackItem>}
     </Stack>
 }

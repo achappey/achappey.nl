@@ -25,13 +25,13 @@ public class achappeyService
             Code = "nl",
             Name = "Dutch",
             Points = 999999,
-            Level = 27
+            Level = 99
         },
         new Language() {
             Code = "gb",
             Name = "English",
             Points = 100000,
-            Level = 26
+            Level = 75
         }
 
     };
@@ -120,16 +120,19 @@ public class achappeyService
         if (durationsYesterday != null)
         {
             items.AddRange(
-                durationsYesterday.Select(a => this._mapper.Map<Activity>(a)));
+                durationsYesterday
+                    .Where(t => !string.IsNullOrWhiteSpace(t.Language))
+                    .Select(a => this._mapper.Map<Activity>(a)));
         }
 
         if (durationsToday != null)
         {
             items.AddRange(
-                durationsToday.Select(a => this._mapper.Map<Activity>(a)));
+                durationsToday
+                    .Where(t => !string.IsNullOrWhiteSpace(t.Language))
+                    .Select(a => this._mapper.Map<Activity>(a)));
         }
 
         return items.GroupBy(v => v.Title).Select(b => b.OrderByDescending(z => z.CreatedAt).First());
-
     }
 }
