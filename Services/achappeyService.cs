@@ -1,6 +1,7 @@
 using AutoMapper;
 using achappey.Models;
 using achappey.Connectors.WakaTime;
+using achappey.Connectors.Lastfm;
 
 namespace achappey.Services;
 
@@ -9,6 +10,7 @@ public class achappeyService
     private readonly Octokit.GitHubClient _github;
 
     private readonly WakaTimeClient _wakaTime;
+    private readonly LastfmClient _lastfm;
 
     private readonly HttpClient _httpClient;
 
@@ -17,6 +19,7 @@ public class achappeyService
     private readonly IConfiguration _config;
 
     private const string GITHUB_USERNAME = "achappey";
+    private const string LASTFM_USERNAME = "achappey";
 
     private const string DUOLINGONATOR = "https://duolingonator.net/api";
 
@@ -37,7 +40,7 @@ public class achappeyService
     };
 
     public achappeyService(
-        HttpClient client, Octokit.GitHubClient github, IMapper mapper, WakaTimeClient wakaTime, IConfiguration config)
+        HttpClient client, Octokit.GitHubClient github, IMapper mapper, WakaTimeClient wakaTime, IConfiguration config, LastfmClient lastfm)
 
     {
         _github = github;
@@ -45,6 +48,7 @@ public class achappeyService
         _wakaTime = wakaTime;
         _config = config;
         _httpClient = client;
+        _lastfm = lastfm;
     }
 
     public async Task<IEnumerable<Repository>> GetRepositories()
@@ -64,6 +68,7 @@ public class achappeyService
         .Select(t => this._mapper.Map<Activity>(t))
         .ToList();
 
+        mappedEvents.AddRange(await this.GetMusicActivity());
         mappedEvents.AddRange(await this.GetCodingActivity());
 
         var activeLanguage = await this.GetActiveLanguage();
@@ -105,9 +110,27 @@ public class achappeyService
         {
             return await this._httpClient.GetFromJsonAsync<ActiveLanguage>(
                string.Format("{1}/activeLanguage?x-api-key={0}", key, DUOLINGONATOR));
+
+               
         }
 
         return null;
+    }    
+
+        private async Task<IEnumerable<Activity>> GetMusicActivity()
+    {
+        var items = new List<Activity>();
+
+        var recentTracks = await this._lastfm.GetRecentTracks(this._config.GetValue<string>("Lastfm"), LASTFM_USERNAME);
+
+        if (recentTracks != null)
+        {
+            items.AddRange(
+                recentTracks
+                    .Select(a => this._mapper.Map<Activity>(a)));
+        }
+
+        return items;
     }
 
     private async Task<IEnumerable<Activity>> GetCodingActivity()

@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useLocation } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
 import { navigation } from "../config/navigation";
+import { SelectLanguage } from "./SelectLanguage";
 
 export interface IHeader {
     toggleMenu: () => void
@@ -41,12 +42,12 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
             <Breadcrumb items={items} />
         </StackItem>
         <StackItem style={{ paddingTop: 16 }}>
+            <SelectLanguage />
         </StackItem>
         {!largeScreen && <StackItem style={{ paddingLeft: 8, paddingTop: 16 }}>
             <IconButton
                 onClick={props.toggleMenu}
-                iconProps={menuIcon}
-            />
+                iconProps={menuIcon} />
         </StackItem>}
     </Stack>
 }

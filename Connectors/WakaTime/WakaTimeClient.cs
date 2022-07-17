@@ -5,11 +5,11 @@ namespace achappey.Connectors.WakaTime;
 public class WakaTimeClient
 {
     private readonly HttpClient _httpClient = null!;
+
     private const string BaseAddress = "https://wakatime.com";
 
     public WakaTimeClient(HttpClient httpClient)
     {
-        httpClient.BaseAddress = new Uri(BaseAddress);
         _httpClient = httpClient;
     }
 

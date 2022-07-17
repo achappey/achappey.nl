@@ -19,5 +19,6 @@ public class Activity
 public enum Source {
     GITHUB,
     DUOLINGO,
-    WAKATIME
+    WAKATIME,
+    LASTFM
 }
