@@ -1,5 +1,6 @@
 import { Breadcrumb, IBreadcrumbItem, IconButton, IIconProps, Stack, StackItem } from "@fluentui/react"
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { useMediaQuery } from "usehooks-ts";
 import { navigation } from "../config/navigation";
@@ -12,7 +13,8 @@ export interface IHeader {
 export const Header: React.FunctionComponent<IHeader> = (props) => {
     const largeScreen = useMediaQuery('(min-width: 768px)')
     const { pathname } = useLocation();
-
+    const { t } = useTranslation();
+    
     const items = useMemo(() => {
         const result: IBreadcrumbItem[] = [{ key: "root", text: "achappey", href: pathname.length > 1 ? "/" : undefined }];
 
@@ -20,12 +22,12 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
             const page = navigation.find(t => t.url === pathname);
 
             if (page !== undefined) {
-                result.push({ key: pathname, text: page.name });
+                result.push({ key: pathname, text: t(page.name) });
             }
         }
 
         return result;
-    }, [pathname]);
+    }, [pathname, t]);
 
     const menuIcon: IIconProps = {
         iconName: "CollapseMenu"

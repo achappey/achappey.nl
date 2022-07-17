@@ -1,4 +1,4 @@
-import { ActionButton, ActivityItem, Icon, Pivot, PivotItem } from "@fluentui/react";
+import { ActionButton, ActivityItem, Icon, Pivot, PivotItem, Shimmer } from "@fluentui/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactTimeAgo from "react-time-ago";
@@ -48,7 +48,7 @@ export const FilteredActivities: React.FunctionComponent<IFilteredActivities> = 
         .map((a: any) => <Activity key={a.id} activity={a} />);
 
     return <>
-        {activities}
+        {activities ? activities : <Shimmer width={150} />}
     </>
 }
 
@@ -58,8 +58,14 @@ export const Activities: React.FunctionComponent = () => {
     const [visibleChunks, setVisibleChunks] = useState<number>(1);
     const activities = useActivities();
     const { t } = useTranslation();
+    
     const showMore = useCallback(() => setVisibleChunks(visibleChunks + 1), [setVisibleChunks, visibleChunks]);
     const pivotStyle = { paddingTop: 16 }
+
+    const listProps = {
+        activities: activities,
+        numberOfItems: chunkSize * visibleChunks
+    }
 
     return <>
         <h4>{t("Activity")}</h4>
@@ -68,32 +74,26 @@ export const Activities: React.FunctionComponent = () => {
             <PivotItem headerText={t("All")}
                 style={pivotStyle}>
                 <FilteredActivities sources={["GITHUB", "WAKATIME", "LASTFM", "DUOLINGO"]}
-                    numberOfItems={chunkSize * visibleChunks}
-                    activities={activities} />
-                <ActionButton onClick={showMore}>Show more</ActionButton>
-
+                    {...listProps} />
             </PivotItem>
             <PivotItem headerText={t("Coding")}
                 style={pivotStyle}>
                 <FilteredActivities sources={["GITHUB", "WAKATIME"]}
-                    numberOfItems={chunkSize * visibleChunks}
-                    activities={activities} />
-                <ActionButton onClick={showMore}>Show more</ActionButton>
+                    {...listProps} />
             </PivotItem>
             <PivotItem headerText={t("Listening")}
                 style={pivotStyle}>
                 <FilteredActivities sources={["LASTFM"]}
-                    numberOfItems={chunkSize * visibleChunks}
-                    activities={activities} />
-                <ActionButton onClick={showMore}>Show more</ActionButton>
+                    {...listProps} />
             </PivotItem>
             <PivotItem headerText={t("Learning")}
                 style={pivotStyle}>
                 <FilteredActivities sources={["DUOLINGO"]}
-                    numberOfItems={chunkSize * visibleChunks}
-                    activities={activities} />
-                <ActionButton onClick={showMore}>Show more</ActionButton>
+                    {...listProps} />
             </PivotItem>
         </Pivot>
+
+        {activities && <ActionButton onClick={showMore}>{t("Show more")}</ActionButton>}
+
     </>
 }
