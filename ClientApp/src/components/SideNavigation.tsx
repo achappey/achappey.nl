@@ -1,4 +1,4 @@
-import { INavLinkGroup, Nav, Stack, StackItem } from "@fluentui/react"
+import { INavLinkGroup, Nav } from "@fluentui/react"
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { navigation } from "../config/navigation";
@@ -18,18 +18,12 @@ export const SideNavigation: React.FunctionComponent = () => {
             links: navLinkGroups[0].links.map(z => {
                 return {
                     ...z,
-                    name:  t(z.name)
+                    name: t(z.name)
                 }
             }),
         },
     ]
 
-    return <Stack>
-        <StackItem>
-            <Nav selectedKey={pathname}
-                groups={navigation} />
-        </StackItem>
-        <Stack>
-        </Stack>
-    </Stack>
+    return <Nav selectedKey={pathname}
+        groups={navigation} />
 }

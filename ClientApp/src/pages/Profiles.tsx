@@ -1,18 +1,31 @@
 import React, { useCallback } from 'react';
-import { List, Image, Link } from '@fluentui/react';
+import { List, Image, Link, mergeStyleSets } from '@fluentui/react';
 import { socials } from '../config/profile';
 
 const linkProperties = { target: "blank" }
 
+const styles = mergeStyleSets({
+  itemContainer:{
+    display: "flex",
+    paddingBottom: 18
+  },
+  itemText: {
+    paddingLeft: 8
+  },
+  itemTitle: {
+    fontSize: "larger"
+  }
+})
+
 export const Profiles: React.FunctionComponent = () => {
   const onRenderCell = useCallback((item: any, index: number | undefined) => {
     return (
-      <div style={{ display: "flex", paddingBottom: 18 }}>
+      <div className={styles.itemContainer}>
         <Link href={item.url} {...linkProperties}>
           <Image src={item.logo} width={64} />
         </Link>
-        <div style={{ paddingLeft: 8 }}>
-          <div style={{ fontSize: "larger" }}>
+        <div className={styles.itemText}>
+          <div className={styles.itemTitle}>
             {item.name}
           </div>
           <div>

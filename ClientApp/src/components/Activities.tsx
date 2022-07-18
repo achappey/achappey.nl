@@ -1,4 +1,4 @@
-import { ActionButton, ActivityItem, Icon, Pivot, PivotItem, Shimmer } from "@fluentui/react";
+import { ActionButton, ActivityItem, Icon, Label, Pivot, PivotItem, Shimmer } from "@fluentui/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactTimeAgo from "react-time-ago";
@@ -68,7 +68,7 @@ export const Activities: React.FunctionComponent = () => {
     }
 
     return <>
-        <h4>{t("Activity")}</h4>
+        <Label>{t("Activity")}</Label>
 
         <Pivot>
             <PivotItem headerText={t("All")}

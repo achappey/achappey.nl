@@ -2,24 +2,37 @@ import React, { useCallback, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import { Home } from './Home';
 
-import { Panel, Stack, StackItem } from '@fluentui/react';
+import { mergeStyleSets, Panel, Stack, StackItem } from '@fluentui/react';
 import { Header } from '../components/Header';
 import { SideNavigation } from '../components/SideNavigation';
 import { Repositories } from './Repositories';
 import { Languages } from './Languages';
 import { useMediaQuery } from 'usehooks-ts'
 import { Profiles } from './Profiles';
+import { brandName } from '../config/profile';
+
+const styles = mergeStyleSets({
+  container:{
+    display: "flex"
+  },
+  content: {
+    paddingLeft: 16, 
+    paddingTop: 16, 
+    width: "100%"
+  },
+  itemTitle: {
+    fontSize: "larger"
+  }
+})
 
 export const Layout: React.FunctionComponent = () => {
   const largeScreen = useMediaQuery('(min-width: 768px)')
   const [showMenu, setShowMenu] = useState(largeScreen);
 
   const toggleMenu = useCallback(() => setShowMenu(!showMenu), [showMenu]);
-  const contentStyle = { paddingLeft: 16, paddingTop: 16, width: "100%" };
 
-  return (<>
-    <Stack verticalFill={true}>
-      <StackItem style={{ width: "100%" }}>
+  return <Stack>
+      <StackItem>
         <Header toggleMenu={toggleMenu} />
       </StackItem>
       <StackItem>
@@ -27,7 +40,7 @@ export const Layout: React.FunctionComponent = () => {
           {showMenu && largeScreen && <StackItem>
             <SideNavigation />
           </StackItem>}
-          <StackItem style={contentStyle}>
+          <StackItem className={styles.content}>
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/repositories' element={<Repositories />} />
@@ -38,13 +51,11 @@ export const Layout: React.FunctionComponent = () => {
           <Panel isOpen={showMenu && !largeScreen}
             isLightDismiss={true}
             onDismiss={toggleMenu}
-            headerText="achappey">
+            headerText={brandName}>
             <SideNavigation />
           </Panel>
         </Stack>
       </StackItem>
-    </Stack>
-  </>
-  );
+    </Stack>;
 
 }

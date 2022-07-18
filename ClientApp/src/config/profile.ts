@@ -7,3 +7,5 @@ export const socials = [
     { name: "Twitter", url: "https://twitter.com/achappey", logo: "/assets/images/Twitter.png" },
     { name: "LinkedIn", url: "https://nl.linkedin.com/in/achappey", logo: "/assets/images/LinkedIn.png" }
   ];
+
+  export const brandName = "achappey"

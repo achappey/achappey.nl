@@ -1,7 +1,19 @@
 import { useEffect } from "react";
 import { useSessionStorage } from "usehooks-ts";
-import { Image, ImageFit, Pivot, PivotItem } from '@fluentui/react';
+import { Image, ImageFit, Label, mergeStyleSets, Pivot, PivotItem, Shimmer } from '@fluentui/react';
 import { useTranslation } from "react-i18next";
+
+const styles = mergeStyleSets({
+    albums: {
+        paddingTop: 16,
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap"
+    },
+    album: {
+        width: 100
+    }
+})
 
 export const Albums: React.FunctionComponent = () => {
     const [albums, setAlbums] = useSessionStorage<any[] | undefined>('albums', undefined);
@@ -15,34 +27,22 @@ export const Albums: React.FunctionComponent = () => {
         }
     }, [albums, setAlbums])
 
-    const topArtists = albums?.map(t => <div> <Image imageFit={ImageFit.contain} style={{ width: 100 }} src={t.image} key={t.id} /></div>)
+    const topArtists = albums?.splice(0, 20).map(t => <Image imageFit={ImageFit.contain} className={styles.album} src={t.image} key={t.id} />)
 
     return <>
-        <div style={{
-            textAlign: "end",
-            paddingRight: 16
-
-        }}>
-            <h4>
-                {t('Favorite music')}
-            </h4>
-            <Pivot>
-                <PivotItem headerText={t("All")}>
-                    <div style={{
-                        paddingTop: 16,
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        flexDirection: "row",
-                        flexWrap: "wrap"
-                    }}>
-                        {topArtists}
-                    </div>
-                </PivotItem>
-                <PivotItem headerText={t("This year")}>
-                </PivotItem>
-                <PivotItem headerText={t("This month")}>
-                </PivotItem>
-            </Pivot>
-        </div>
+        <Label>
+            {t('Favorite music')}
+        </Label>
+        <Pivot>
+            <PivotItem headerText={t("All")}>
+                <div className={styles.albums}>
+                    {topArtists ? topArtists : <Shimmer width={250} />}
+                </div>
+            </PivotItem>
+            <PivotItem headerText={t("This year")}>
+            </PivotItem>
+            <PivotItem headerText={t("This month")}>
+            </PivotItem>
+        </Pivot>
     </>
 }
