@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { IPersonaSharedProps, mergeStyleSets, Persona, PersonaPresence, PersonaSize, Shimmer, Stack, StackItem, VerticalDivider } from '@fluentui/react';
+import { IPersonaSharedProps, mergeStyleSets, Persona, PersonaPresence, PersonaSize, Shimmer, Stack, StackItem } from '@fluentui/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useLanguages } from '../hooks/useLanguages';
 import { LanguageFlag } from '../components/LanguageFlag';
