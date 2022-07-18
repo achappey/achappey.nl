@@ -15,7 +15,7 @@ public class WakaTimeProfile : Profile
         })
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => src.Time.ToString()))
+            opt => opt.MapFrom(src => Source.WAKATIME + src.Time.ToString()))
         .ForMember(
             dest => dest.Title,
             opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Language)

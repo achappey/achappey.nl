@@ -5,14 +5,16 @@ import { useLanguages } from '../hooks/useLanguages';
 import { LanguageFlag } from '../components/LanguageFlag';
 import { Activities } from '../components/Activities';
 import { useTranslation } from 'react-i18next';
+import { Albums } from '../components/Albums';
 
 
 export const Home: React.FunctionComponent = () => {
-  const matches = useMediaQuery('(min-width: 768px)')
+  const largeScreen = useMediaQuery('(min-width: 768px)')
   const languages = useLanguages();
   const { t } = useTranslation();
-  
-  const size: PersonaSize = matches ? PersonaSize.size72 : PersonaSize.size56;
+
+
+  const size: PersonaSize = largeScreen ? PersonaSize.size72 : PersonaSize.size56;
 
   const examplePersona: IPersonaSharedProps = {
     imageUrl: "/assets/images/achappey.jpg",
@@ -49,8 +51,21 @@ export const Home: React.FunctionComponent = () => {
             </p>
           </StackItem>
           <StackItem>
-            <Activities />
+            <Stack horizontal={true} >
+              <StackItem >
+                <Activities />
+              </StackItem>
+              {largeScreen &&
+                <StackItem >
+                  <Albums />
+                </StackItem>}
+
+            </Stack>
           </StackItem>
+          {!largeScreen &&
+                <StackItem >
+                  <Albums />
+                </StackItem>}
         </Stack>
       </StackItem>
       <StackItem>

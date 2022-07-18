@@ -19,6 +19,7 @@ public class achappeyService
     private readonly IConfiguration _config;
 
     private const string GITHUB_USERNAME = "achappey";
+    
     private const string LASTFM_USERNAME = "achappey";
 
     private const string DUOLINGONATOR = "https://duolingonator.net/api";
@@ -102,6 +103,13 @@ public class achappeyService
         return languages;
     }
 
+    public async Task<IEnumerable<Album>?> GetAlbums()
+    {
+        var topArtists = await this._lastfm.GetTopAlbums(this._config.GetValue<string>("Lastfm"), LASTFM_USERNAME);
+
+        return topArtists?.Select(a => this._mapper.Map<Album>(a));
+    }
+
     private async Task<ActiveLanguage?> GetActiveLanguage()
     {
         var key = this._config.GetValue<string>("Duolingo");
@@ -111,13 +119,13 @@ public class achappeyService
             return await this._httpClient.GetFromJsonAsync<ActiveLanguage>(
                string.Format("{1}/activeLanguage?x-api-key={0}", key, DUOLINGONATOR));
 
-               
+
         }
 
         return null;
-    }    
+    }
 
-        private async Task<IEnumerable<Activity>> GetMusicActivity()
+    private async Task<IEnumerable<Activity>> GetMusicActivity()
     {
         var items = new List<Activity>();
 

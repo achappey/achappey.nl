@@ -14,7 +14,9 @@ export const SelectLanguage: React.FunctionComponent = () => {
         { key: 'nl', text: 'Nederlands' }
     ];
 
-    return <Dropdown selectedKey={i18n.language}
+    const selectedKey = i18n.language?.indexOf("nl") > -1 ? "nl" : "en";
+
+    return <Dropdown selectedKey={selectedKey}
         style={{ minWidth: 100 }}
         onChange={switchLanguage}
         options={languageOptions} />

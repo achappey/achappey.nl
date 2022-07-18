@@ -13,7 +13,7 @@ public class DuolingoProfile : Profile
             Title = string.Format("{0} {1}: {2}", a.Language, b.EventType, a.Skills.First(y => y.Id == b.Skill).Name),
             CreatedAt = b.DateTime,
             Source = Source.DUOLINGO,
-            Id = b.DateTime.ToString()
+            Id =  Source.DUOLINGO + b.DateTime.ToString()
         }));
     }
 }
