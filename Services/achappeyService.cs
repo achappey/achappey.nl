@@ -103,9 +103,9 @@ public class achappeyService
         return languages;
     }
 
-    public async Task<IEnumerable<Album>?> GetAlbums()
+    public async Task<IEnumerable<Album>?> GetAlbums(string period)
     {
-        var topArtists = await this._lastfm.GetTopAlbums(this._config.GetValue<string>("Lastfm"), LASTFM_USERNAME);
+        var topArtists = await this._lastfm.GetTopAlbums(this._config.GetValue<string>("Lastfm"), LASTFM_USERNAME, period);
 
         return topArtists?.Select(a => this._mapper.Map<Album>(a));
     }

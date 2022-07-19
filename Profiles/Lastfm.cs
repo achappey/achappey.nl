@@ -13,7 +13,10 @@ public class LastfmProfile : Profile
             opt => opt.MapFrom(src => src.Image.Count() > 0 ? src.Image.Last().Url : null))
         .ForMember(
             dest => dest.Artist,
-            opt => opt.MapFrom(src => src.Artist.Name));
+            opt => opt.MapFrom(src => src.Artist.Name))
+        .ForMember(
+            dest => dest.Id,
+            opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? src.Id : src.Name));
 
         CreateMap<achappey.Connectors.Lastfm.Models.Track, Activity>()
         .ConstructUsing(a => new Activity()

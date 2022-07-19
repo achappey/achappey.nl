@@ -82,7 +82,9 @@ export const Home: FunctionComponent = () => {
         </Stack>
       </StackItem>
       <StackItem>
-        <Stack>{flags ? flags : <Shimmer width={50} />}</Stack>
+        <Stack>
+          {flags ? flags : <Shimmer width={50} />}
+          </Stack>
       </StackItem>
     </Stack>
   );
