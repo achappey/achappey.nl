@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ctrl/tinycolor": "^3.4.1",
     "@fluentui/react": "^8.0.0",
+    "@fluentui/react-cards": "^0.204.4",
     "@microsoft/applicationinsights-react-js": "^3.3.5",
     "@microsoft/applicationinsights-web": "^2.8.5",
     "@types/react-world-flags": "^1.4.2",

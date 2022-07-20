@@ -12,10 +12,6 @@ const styles = mergeStyleSets({
     minWidth: 50,
     paddingBottom: 8
   },
-  card: {
-    paddingRight: 16,
-    paddingBottom: 16
-  },
   hero: {
     fontSize: "larger"
   }
@@ -41,7 +37,6 @@ export const Home: FunctionComponent = () => {
     <LanguageFlag name={a.name} code={a.code} />
   </StackItem>);
 
-
   return (
     <Stack horizontal={true}>
       <StackItem grow={1}>
@@ -55,7 +50,7 @@ export const Home: FunctionComponent = () => {
               imageAlt="Arthur Bleij"
             />
           </StackItem>
-          <StackItem className={styles.card}>
+          <StackItem >
             <p className={styles.hero}>
               {t("PrimaryDescription")}
             </p>
@@ -65,18 +60,17 @@ export const Home: FunctionComponent = () => {
           </StackItem>
           <StackItem>
             <Stack horizontal={true}>
-              <StackItem className={styles.card}>
+              <StackItem>
                 <Activities />
               </StackItem>
               {largeScreen &&
-                <StackItem className={styles.card} >
+                <StackItem >
                   <Albums />
                 </StackItem>}
             </Stack>
           </StackItem>
-
           {!largeScreen &&
-            <StackItem className={styles.card} >
+            <StackItem >
               <Albums />
             </StackItem>}
         </Stack>
@@ -84,7 +78,7 @@ export const Home: FunctionComponent = () => {
       <StackItem>
         <Stack>
           {flags ? flags : <Shimmer width={50} />}
-          </Stack>
+        </Stack>
       </StackItem>
     </Stack>
   );

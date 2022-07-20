@@ -19,6 +19,12 @@ export const navigation = [
         icon: 'Comment'
     },
     {
+        name: 'Color Ramp',
+        url: '/colorramp',
+        key: '/colorramp',
+        icon: 'Color'
+    },
+    {
         name: 'Socials',
         url: '/profiles',
         key: '/profiles',

@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactTimeAgo from "react-time-ago";
 import { useActivities } from "../hooks/useActivities";
+import { ItemCard } from "./ItemCard";
 
 const sourceToIcon = (source: string) => {
     switch (source) {
@@ -68,6 +69,8 @@ export const Activities: React.FunctionComponent = () => {
     }
 
     return <>
+                  <ItemCard>
+
         <Label>{t("Activity")}</Label>
 
         <Pivot>
@@ -94,6 +97,7 @@ export const Activities: React.FunctionComponent = () => {
         </Pivot>
 
         {activities && <ActionButton onClick={showMore}>{t("Show more")}</ActionButton>}
+        </ItemCard>
 
     </>
 }

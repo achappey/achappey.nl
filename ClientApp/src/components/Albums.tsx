@@ -3,6 +3,7 @@ import { useSessionStorage } from "usehooks-ts";
 import { Image, ImageFit, Label, Link, mergeStyleSets, Pivot, PivotItem, Shimmer, TooltipHost } from '@fluentui/react';
 import { useTranslation } from "react-i18next";
 import { useId } from '@fluentui/react-hooks';
+import { ItemCard } from "./ItemCard";
 
 const styles = mergeStyleSets({
     albums: {
@@ -43,7 +44,7 @@ export const Albums: React.FunctionComponent = () => {
         }
     }, [albums, setAlbums])
 
-    const topArtists = albums?.map(t => <Album album={t} />)
+    const topArtists = albums?.slice(0, 20).map(t => <Album album={t} />)
 
     const getArtists = useCallback((item?: PivotItem) => {
         fetch(`/api/albums?period=${item?.props.id}`)
@@ -51,7 +52,7 @@ export const Albums: React.FunctionComponent = () => {
             .then(resp => setAlbums(resp))
     }, [setAlbums])
 
-    return <>
+    return <ItemCard>
         <Label>
             {t('Favorite music')}
         </Label>
@@ -66,6 +67,5 @@ export const Albums: React.FunctionComponent = () => {
         <div className={styles.albums}>
             {topArtists ? topArtists : <Shimmer width={250} />}
         </div>
-
-    </>
+    </ItemCard>
 }

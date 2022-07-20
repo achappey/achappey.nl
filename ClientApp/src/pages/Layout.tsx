@@ -10,6 +10,7 @@ import { Languages } from './Languages';
 import { useMediaQuery } from 'usehooks-ts'
 import { Profiles } from './Profiles';
 import { brandName } from '../config/profile';
+import { ColorRamp } from './ColorRamp';
 
 const styles = mergeStyleSets({
   container:{
@@ -46,6 +47,7 @@ export const Layout: React.FunctionComponent = () => {
               <Route path='/repositories' element={<Repositories />} />
               <Route path='/languages' element={<Languages />} />
               <Route path='/profiles' element={<Profiles />} />
+              <Route path='/colorramp' element={<ColorRamp />} />
             </Routes>
           </StackItem>
           <Panel isOpen={showMenu && !largeScreen}
