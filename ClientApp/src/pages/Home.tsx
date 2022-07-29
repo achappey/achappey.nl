@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { makeStyles, Avatar, Label } from '@fluentui/react-components';
+import { makeStyles, Avatar } from '@fluentui/react-components';
 import { Activities } from '../cards/Activities';
 import { useTranslation } from 'react-i18next';
 import { Albums } from '../cards/Albums';

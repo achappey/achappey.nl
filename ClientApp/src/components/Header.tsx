@@ -1,6 +1,5 @@
-import { Button, makeStyles, Image } from "@fluentui/react-components"
+import { Button, makeStyles } from "@fluentui/react-components"
 import { WeatherMoonRegular, WeatherSunnyRegular } from "@fluentui/react-icons"
-import { tokens } from '@fluentui/react-theme';
 import { Logo } from "./Logo";
 import { SelectLanguage } from "./SelectLanguage";
 
