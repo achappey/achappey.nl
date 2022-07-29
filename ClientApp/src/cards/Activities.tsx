@@ -1,74 +1,19 @@
-import { TabList, Tab, Link, SelectTabEvent, SelectTabData, makeStyles } from "@fluentui/react-components";
+import { TabList, Tab, Link, SelectTabEvent, SelectTabData, makeStyles, Spinner } from "@fluentui/react-components";
 import { ListRegular, CodeRegular, MusicNote2Regular, BookOpenRegular } from "@fluentui/react-icons";
 import { useCallback, useState, FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import ReactTimeAgo from "react-time-ago";
 import { useActivities } from "../hooks/useActivities";
 import { ItemCard } from "../components/ItemCard";
-
+import { Activity } from "../components/Activity";
 
 const useStyles = makeStyles({
-    socialLogo: {
-        paddingTop: "8px",
-        paddingRight: "8px"
-    },
     container: {
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
         paddingBottom: "16px"
-    },
-    activity: {
-        display: "flex",
-        flexDirection: "row",
-    },
-    activityIcon: {
-        paddingRight: "8px"
     }
 })
-
-interface ISourceIcon {
-    source: string
-}
-
-const SourceIcon: FunctionComponent<ISourceIcon> = (props) => {
-    switch (props.source) {
-        case "GITHUB":
-            return <CodeRegular fontSize={28} />
-        case "DUOLINGO":
-            return <BookOpenRegular fontSize={28} />
-        case "WAKATIME":
-            return <CodeRegular fontSize={28} />
-        case "LASTFM":
-            return <MusicNote2Regular fontSize={28} />
-        default:
-            return <></>;
-    }
-}
-
-export interface IActivity {
-    activity: any
-
-}
-
-export const Activity: React.FunctionComponent<IActivity> = (props) => {
-    const classes = useStyles()
-
-    return <div className={classes.activity}>
-        <div className={classes.activityIcon}>
-            <SourceIcon source={props.activity.source} />
-            {props.activity.icon}
-        </div>
-        <div>
-            <div>
-                {props.activity.title}
-            </div>
-            <div>
-                <ReactTimeAgo date={new Date(props.activity.createdAt)} />
-            </div>
-        </div>
-    </div>
-}
 
 
 export interface IFilteredActivities {
@@ -77,7 +22,7 @@ export interface IFilteredActivities {
     numberOfItems: number
 }
 
-export const FilteredActivities: React.FunctionComponent<IFilteredActivities> = (props) => {
+export const FilteredActivities: FunctionComponent<IFilteredActivities> = (props) => {
     const activities = props.activities?.filter(a => props.sources.indexOf(a.source) > -1)
         .slice(0, props.numberOfItems)
         .map((a: any) => <Activity key={a.id} activity={a} />);
@@ -89,7 +34,7 @@ export const FilteredActivities: React.FunctionComponent<IFilteredActivities> = 
 
 const chunkSize = 10;
 
-export const Activities: React.FunctionComponent = () => {
+export const Activities: FunctionComponent = () => {
     const [visibleChunks, setVisibleChunks] = useState<number>(1);
     const [sources, setSources] = useState<string>("GITHUB,WAKATIME,LASTFM,DUOLINGO");
     const { t } = useTranslation();
@@ -137,6 +82,10 @@ export const Activities: React.FunctionComponent = () => {
                 <Link onClick={showMore}>
                     {t("Show more")}
                 </Link>
+            }
+
+            {!activities &&
+               <Spinner />
             }
         </div>
     </ItemCard>

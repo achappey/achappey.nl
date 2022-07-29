@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Layout } from './pages/Layout';
 import { initTimeAgo } from './utils/initTimeAgo';
 import { initInsights } from './utils/initInsights';

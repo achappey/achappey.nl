@@ -4,9 +4,10 @@ import { useLanguages } from '../hooks/useLanguages';
 import { Language } from '../cards/Language';
 import { useTranslation } from 'react-i18next';
 import { PageHeader } from '../components/PageHeader';
+import { LanguageActivities } from '../cards/LanguageActivities';
 
 const useStyles = makeStyles({
-  wrapper: {
+  languageWrapper: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gridAutoRows: "minmax(100px, auto)",
@@ -14,8 +15,26 @@ const useStyles = makeStyles({
       gridTemplateColumns: "repeat(3, 1fr)",
     },
     '@media(min-width: 768px)': {
-      gridTemplateColumns: "repeat(5, 1fr)",
+      gridTemplateColumns: "repeat(4, 1fr)",
     },
+  },
+  wrapper: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
+  languages: {
+    flexBasis: "100%",
+    '@media(min-width: 768px)': {
+      flexBasis: "80%",
+    },
+  },
+  activity: {
+    flexBasis: "100%",
+    '@media(min-width: 768px)': {
+      flexBasis: "20%",
+    },
+
   }
 })
 
@@ -30,7 +49,14 @@ export const Languages: FunctionComponent = () => {
     <PageHeader title={t('Languages')} />
 
     <div className={classes.wrapper}>
-      {languageItems}
+      <div className={classes.languages}>
+        <div className={classes.languageWrapper}>
+          {languageItems}
+        </div>
+      </div>
+      <div className={classes.activity}>
+        <LanguageActivities />
+      </div>
     </div>
   </>
 }

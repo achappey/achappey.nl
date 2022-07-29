@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Route, Routes } from 'react-router';
 import { Home } from './Home';
-
 import { makeStyles, tokens } from '@fluentui/react-components';
 import { Header } from '../components/Header';
 import { Profiles } from './Profiles';

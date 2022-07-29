@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@fluentui/react-components"
+import { Button, makeStyles, Spinner } from "@fluentui/react-components"
 import { OpenRegular } from "@fluentui/react-icons"
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -28,19 +28,26 @@ export const Languages: React.FunctionComponent = () => {
         <LanguageFlag {...a} />
     </div>);
 
-    const buttons = [
+    const buttons = languages ? [
         <Button appearance="subtle" key="languages"
             onClick={() => navigate("/languages")}
             icon={<OpenRegular />}>
             {t("Show more")}
         </Button>
-    ]
+    ] : []
 
     return <ItemCard title={t("Languages")} buttons={buttons}>
         <div>
-            <div className={classes.container}>
-                {flags}
-            </div>
+            {languages &&
+                <div className={classes.container}>
+                    {flags}
+                </div>
+            }
+
+            {!languages &&
+                <Spinner />
+            }
+
         </div>
     </ItemCard>
 }

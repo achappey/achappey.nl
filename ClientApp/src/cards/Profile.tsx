@@ -1,8 +1,9 @@
 import { ItemCard } from "../components/ItemCard"
-import { Button, Image, Link } from '@fluentui/react-components'
+import { Button, Link } from '@fluentui/react-components'
 import { OpenRegular } from "@fluentui/react-icons"
 import { ISocialProfile } from "../config/types"
 import { useTranslation } from "react-i18next"
+import { SocialLogo } from "../components/SocialLogo"
 
 export const Profile: React.FunctionComponent<ISocialProfile> = (props) => {
     const { t } = useTranslation()
@@ -16,7 +17,7 @@ export const Profile: React.FunctionComponent<ISocialProfile> = (props) => {
     ]
 
     return <ItemCard title={props.name} buttons={buttons}
-        image={<Image src={props.logo} height={24} />}>
+        image={<SocialLogo {...props} height={24} />}>
         <Link href={props.url} target={"_blank"}>{props.url}</Link>
     </ItemCard>
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { FunctionComponent, useCallback, useMemo, useState } from 'react'
 import { makeStyles, Slider, Button, Link } from '@fluentui/react-components'
 import { ClipboardRegular, ClipboardCheckmarkRegular } from '@fluentui/react-icons'
 import { TinyColor } from '@ctrl/tinycolor'
@@ -48,7 +48,7 @@ const toHexText = (color: string) => {
   return color.startsWith("#") ? color : `#${color}`;
 }
 
-const ColorRampView: React.FunctionComponent<IColorView> = (props) => {
+const ColorRampView: FunctionComponent<IColorView> = (props) => {
   const numberText = props.description ? `${props.number.toString()} (${props.description})` : props.number.toString();
   const classes = useStyles()
 
@@ -59,7 +59,7 @@ const ColorRampView: React.FunctionComponent<IColorView> = (props) => {
   </div>
 };
 
-export const ColorRamp: React.FunctionComponent = () => {
+export const ColorRamp: FunctionComponent = () => {
   const [color, setColor] = useState("#FFA500")
   const [deviation, setDeviation] = useState(75)
   const [state, copyToClipboard] = useCopyToClipboard()
