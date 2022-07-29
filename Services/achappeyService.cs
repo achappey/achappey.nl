@@ -28,12 +28,14 @@ public class achappeyService
         new Language() {
             Code = "nl",
             Name = "Dutch",
+            Description = "Native",
             Points = 999999,
             Level = 99
         },
         new Language() {
             Code = "gb",
             Name = "English",
+            Description = "Professional",
             Points = 100000,
             Level = 75
         }

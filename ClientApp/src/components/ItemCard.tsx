@@ -1,24 +1,44 @@
-import { mergeStyleSets } from "@fluentui/react";
-import { Card, CardItem, CardSection } from "@fluentui/react-cards";
+import { Label, makeStyles } from "@fluentui/react-components";
+import { Card, CardHeader, CardPreview, CardFooter } from "@fluentui/react-components/unstable";
 import { FunctionComponent } from "react";
 
-const styles = mergeStyleSets({
+interface IItemCard {
+    buttons?: any[]
+    title: string
+    description?: any
+    image?: any
+}
+
+const useStyles = makeStyles({
     cardContainer: {
-      padding: 8,
-      marginRight: 24,
-      marginBottom: 24,
-      maxWidth: "inherit"
+        marginRight: "8px",
+        marginBottom: "16px",
+        '@media(min-width: 768px)': {
+            marginRight: "16px"
+        }
+    },
+    preview: {
+        paddingRight: "12px",
+        paddingLeft: "12px"
     }
-  })
+})
 
-export const ItemCard: FunctionComponent = (props) => {
+export const ItemCard: FunctionComponent<IItemCard> = (props) => {
+    const classes = useStyles()
+    const header = <Label size="large">
+        {props.title}
+    </Label>
 
-    return <div><Card className={styles.cardContainer} >
-        <CardSection>
-            <CardItem disableShrink>
-                {props.children}
-            </CardItem>
-        </CardSection>
+    return <Card className={classes.cardContainer} >
+        <CardHeader header={header}
+            image={props.image}
+            description={props.description}>
+        </CardHeader>
+        <CardPreview className={classes.preview}>
+            {props.children}
+        </CardPreview>
+        <CardFooter>
+            {props.buttons?.map(a => a)}
+        </CardFooter>
     </Card>
-    </div>
 }

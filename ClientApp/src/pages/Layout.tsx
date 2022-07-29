@@ -1,63 +1,47 @@
-import React, { useCallback, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { Route, Routes } from 'react-router';
 import { Home } from './Home';
 
-import { mergeStyleSets, Panel, Stack, StackItem } from '@fluentui/react';
+import { makeStyles, tokens } from '@fluentui/react-components';
 import { Header } from '../components/Header';
-import { SideNavigation } from '../components/SideNavigation';
-import { Repositories } from './Repositories';
-import { Languages } from './Languages';
-import { useMediaQuery } from 'usehooks-ts'
 import { Profiles } from './Profiles';
-import { brandName } from '../config/profile';
+import { FluentProvider } from '@fluentui/react-components';
+import { customDarkTheme, customLightTheme } from '../config/theme';
+import { Languages } from './Languages';
+import { useTheme } from '../hooks/useTheme';
 import { ColorRamp } from './ColorRamp';
 
-const styles = mergeStyleSets({
-  container:{
-    display: "flex"
-  },
-  content: {
-    paddingLeft: 16, 
-    paddingTop: 16, 
-    width: "100%"
-  },
-  itemTitle: {
-    fontSize: "larger"
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    backgroundColor: tokens.colorBackgroundOverlay,
+    flexDirection: "column",
+    paddingLeft: "8px",
+    '@media(min-width: 768px)': {
+      paddingLeft: "16px",
+    },
   }
 })
 
-export const Layout: React.FunctionComponent = () => {
-  const largeScreen = useMediaQuery('(min-width: 768px)')
-  const [showMenu, setShowMenu] = useState(largeScreen);
+export const Layout: FunctionComponent = () => {
+  const classes = useStyles()
+  const { darkTheme, toggleTheme } = useTheme()
+  const theme = darkTheme ? customDarkTheme : customLightTheme
 
-  const toggleMenu = useCallback(() => setShowMenu(!showMenu), [showMenu]);
+  return <FluentProvider theme={theme}>
+    <div className={classes.container}>
+      <div>
+        <Header toggleTheme={toggleTheme} darkTheme={darkTheme} />
+      </div>
 
-  return <Stack>
-      <StackItem>
-        <Header toggleMenu={toggleMenu} />
-      </StackItem>
-      <StackItem>
-        <Stack horizontal={true}>
-          {showMenu && largeScreen && <StackItem>
-            <SideNavigation />
-          </StackItem>}
-          <StackItem className={styles.content}>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/repositories' element={<Repositories />} />
-              <Route path='/languages' element={<Languages />} />
-              <Route path='/profiles' element={<Profiles />} />
-              <Route path='/colorramp' element={<ColorRamp />} />
-            </Routes>
-          </StackItem>
-          <Panel isOpen={showMenu && !largeScreen}
-            isLightDismiss={true}
-            onDismiss={toggleMenu}
-            headerText={brandName}>
-            <SideNavigation />
-          </Panel>
-        </Stack>
-      </StackItem>
-    </Stack>;
-
+      <div>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/profiles' element={<Profiles />} />
+          <Route path='/languages' element={<Languages />} />
+          <Route path='/colorramp' element={<ColorRamp />} />
+        </Routes>
+      </div>
+    </div>
+  </FluentProvider>
 }

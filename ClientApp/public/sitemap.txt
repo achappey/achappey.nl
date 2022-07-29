@@ -4,12 +4,12 @@
     <loc>https://achappey.nl/</loc>
   </url>
   <url>
-    <loc>https://achappey.nl/repositories</loc>
-  </url>
-  <url>
     <loc>https://achappey.nl/languages</loc>
   </url>
   <url>
-    <loc>https://achappey.nl/socials</loc>
+    <loc>https://achappey.nl/profiles</loc>
+  </url>
+  <url>
+    <loc>https://achappey.nl/colorramp</loc>
   </url>
 </urlset>

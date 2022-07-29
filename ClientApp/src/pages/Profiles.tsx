@@ -1,45 +1,35 @@
-import React, { useCallback } from 'react';
-import { List, Image, Link, mergeStyleSets } from '@fluentui/react';
+import { FunctionComponent } from 'react';
+import { makeStyles } from '@fluentui/react-components';
 import { socials } from '../config/profile';
+import { PageHeader } from '../components/PageHeader';
+import { useTranslation } from 'react-i18next';
+import { Profile } from '../cards/Profile';
 
-const linkProperties = { target: "blank" }
-
-const styles = mergeStyleSets({
-  itemContainer:{
-    display: "flex",
-    paddingBottom: 18
+const useStyles = makeStyles({
+  wrapper: {
+    display: "grid",
+    gridTemplateColumns: "repeat(1, 1fr)",
+    gridAutoRows: "minmax(100px, auto)",
+    '@media(min-width: 600px)': {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    '@media(min-width: 768px)': {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
   },
-  itemText: {
-    paddingLeft: 8
-  },
-  itemTitle: {
-    fontSize: "larger"
-  }
 })
 
-export const Profiles: React.FunctionComponent = () => {
-  const onRenderCell = useCallback((item: any, index: number | undefined) => {
-    return (
-      <div className={styles.itemContainer}>
-        <Link href={item.url} {...linkProperties}>
-          <Image src={item.logo} width={64} />
-        </Link>
-        <div className={styles.itemText}>
-          <div className={styles.itemTitle}>
-            {item.name}
-          </div>
-          <div>
-            <Link href={item.url} {...linkProperties}>
-              {item.url}
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }, []);
+export const Profiles: FunctionComponent = () => {
+  const classes = useStyles()
+  const { t } = useTranslation()
 
-  return <List
-    items={socials}
-    onRenderCell={onRenderCell}
-  />
+  const profileItems = socials?.map(y => <Profile {...y} />)
+
+return <>
+    <PageHeader title={t('Networks')} />
+
+    <div className={classes.wrapper}>
+      {profileItems}
+    </div>
+  </>
 }

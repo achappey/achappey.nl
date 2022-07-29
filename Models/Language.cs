@@ -6,6 +6,8 @@ public class Language
 {
     public string Name { get; set; } = null!;
 
+    public string Description { get; set; } = "Duolingo";
+
     [Key]
     public string Code { get; set; } = null!;
 

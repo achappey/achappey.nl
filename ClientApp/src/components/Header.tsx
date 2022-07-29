@@ -1,75 +1,51 @@
-import { Breadcrumb, IBreadcrumbItem, IconButton, IIconProps, mergeStyleSets, Stack, StackItem } from "@fluentui/react"
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
-import { useMediaQuery } from "usehooks-ts";
-import { navigation } from "../config/navigation";
-import { brandName } from "../config/profile";
+import { Button, makeStyles, Image } from "@fluentui/react-components"
+import { WeatherMoonRegular, WeatherSunnyRegular } from "@fluentui/react-icons"
+import { tokens } from '@fluentui/react-theme';
+import { Logo } from "./Logo";
 import { SelectLanguage } from "./SelectLanguage";
 
-export interface IHeader {
-    toggleMenu: () => void
-}
-
-const menuIcon: IIconProps = {
-    iconName: "CollapseMenu"
-}
-
-const styles = mergeStyleSets({
-    menuIcon: {
-        paddingTop: 16
+const useStyles = makeStyles({
+    selector: {
+        paddingRight: "8px",
+        '@media(min-width: 768px)': {
+            paddingRight: "16px",
+        },
     },
-    mobileMenuIcon: {
-        paddingTop: 16,
-        paddingLeft: 8
+    wrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingTop: "12px",
+        alignItems: "center",
+        paddingBottom: "12px"
     },
-    languageSelector: {
-        paddingTop: 16
-    },
+    actions: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between"
+    }
 })
 
+interface IHeader {
+    toggleTheme: any
+    darkTheme: boolean
+}
+
 export const Header: React.FunctionComponent<IHeader> = (props) => {
-    const largeScreen = useMediaQuery('(min-width: 768px)')
-    const { pathname } = useLocation();
-    const { t } = useTranslation();
+    const classes = useStyles()
 
-    const items = useMemo(() => {
-        const result: IBreadcrumbItem[] = [{
-            key: "root",
-            text: brandName,
-            href: pathname.length > 1 ? "/" : undefined
-        }];
+    return <div className={classes.wrapper}>
+        <Logo />
 
-        if (pathname.length > 1) {
-            const page = navigation.find(t => t.url === pathname);
-
-            if (page !== undefined) {
-                result.push({ key: pathname, text: t(page.name) });
-            }
-        }
-
-        return result;
-    }, [pathname, t]);
-
-
-    return <Stack horizontal={true}>
-        {largeScreen && <StackItem className={styles.menuIcon}>
-            <IconButton
-                onClick={props.toggleMenu}
-                iconProps={menuIcon}
-            />
-        </StackItem>
-        }
-        <StackItem grow={1}>
-            <Breadcrumb items={items} />
-        </StackItem>
-        <StackItem className={styles.languageSelector}>
-            <SelectLanguage />
-        </StackItem>
-        {!largeScreen && <StackItem className={styles.mobileMenuIcon}>
-            <IconButton
-                onClick={props.toggleMenu}
-                iconProps={menuIcon} />
-        </StackItem>}
-    </Stack>
+        <div>
+            <div className={classes.actions}>
+                <div className={classes.selector}>
+                    <Button onClick={props.toggleTheme} icon={props.darkTheme ? <WeatherSunnyRegular /> : <WeatherMoonRegular />} />
+                </div>
+                <div className={classes.selector}>
+                    <SelectLanguage />
+                </div>
+            </div>
+        </div>
+    </div>
 }

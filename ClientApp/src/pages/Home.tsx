@@ -1,86 +1,57 @@
 import { FunctionComponent } from 'react';
-import { IPersonaSharedProps, mergeStyleSets, Persona, PersonaPresence, PersonaSize, Shimmer, Stack, StackItem } from '@fluentui/react';
-import { useMediaQuery } from 'usehooks-ts';
-import { useLanguages } from '../hooks/useLanguages';
-import { LanguageFlag } from '../components/LanguageFlag';
-import { Activities } from '../components/Activities';
+import { makeStyles, Avatar, Label } from '@fluentui/react-components';
+import { Activities } from '../cards/Activities';
 import { useTranslation } from 'react-i18next';
-import { Albums } from '../components/Albums';
+import { Albums } from '../cards/Albums';
+import { ItemCard } from '../components/ItemCard';
+import { Languages } from '../cards/Languages';
+import { Socials } from '../cards/Socials';
+import { me } from '../config/profile';
 
-const styles = mergeStyleSets({
-  flags: {
-    minWidth: 50,
-    paddingBottom: 8
-  },
-  hero: {
-    fontSize: "larger"
+const useStyles = makeStyles({
+  wrapper: {
+    display: "grid",
+    gridTemplateColumns: "repeat(1, 1fr)",
+    gridAutoRows: "minmax(100px, auto)",
+    '@media(min-width: 768px)': {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
   }
 })
 
 
 export const Home: FunctionComponent = () => {
-  const largeScreen = useMediaQuery('(min-width: 768px)')
-  const languages = useLanguages();
-  const { t } = useTranslation();
+  const { t } = useTranslation()
+  const classes = useStyles()
 
-  const size: PersonaSize = largeScreen ? PersonaSize.size72 : PersonaSize.size56;
+  const avatar = <Avatar name="Arthur Bleij"
+    size={56}
+    style={{ width: '60px', height: '60px' }}
+    image={{ src: me.image }}
+    badge={{ status: 'busy' }}
+  />
 
-  const me: IPersonaSharedProps = {
-    imageUrl: "/assets/images/achappey.jpg",
-    imageInitials: 'AB',
-    text: 'Arthur Bleij',
-    secondaryText: 'Full Stack Developer',
-    tertiaryText: 'Azure, C#, React, Angular, Microsoft 365, Power Platform',
-  };
+  const myDescription = <div><div>{me.jobTitle}</div><div>{me.specialties}</div></div>
 
-  const flags = languages?.map(a => <StackItem key={a.code} className={styles.flags}>
-    <LanguageFlag name={a.name} code={a.code} />
-  </StackItem>);
+  return <div className={classes.wrapper}>
+    <ItemCard title={me.name} image={avatar}
+      description={myDescription}>
+      <div>
+        <p>
+          {t("PrimaryDescription")}
+        </p>
 
-  return (
-    <Stack horizontal={true}>
-      <StackItem grow={1}>
-        <Stack>
-          <StackItem>
-            <Persona
-              {...me}
-              size={size}
-              presence={PersonaPresence.busy}
-              hidePersonaDetails={false}
-              imageAlt="Arthur Bleij"
-            />
-          </StackItem>
-          <StackItem >
-            <p className={styles.hero}>
-              {t("PrimaryDescription")}
-            </p>
-            <p className={styles.hero}>
-              {t("SecondaryDescription")}
-            </p>
-          </StackItem>
-          <StackItem>
-            <Stack horizontal={true}>
-              <StackItem>
-                <Activities />
-              </StackItem>
-              {largeScreen &&
-                <StackItem >
-                  <Albums />
-                </StackItem>}
-            </Stack>
-          </StackItem>
-          {!largeScreen &&
-            <StackItem >
-              <Albums />
-            </StackItem>}
-        </Stack>
-      </StackItem>
-      <StackItem>
-        <Stack>
-          {flags ? flags : <Shimmer width={50} />}
-        </Stack>
-      </StackItem>
-    </Stack>
-  );
+        {t("SecondaryDescription")}
+      </div>
+    </ItemCard>
 
+    <div>
+      <Socials />
+      <Languages />
+    </div>
+
+    <Activities />
+
+    <Albums />
+  </div>
 }
