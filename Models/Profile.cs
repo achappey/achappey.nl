@@ -13,5 +13,5 @@ public class Profile
 
     public DateTimeOffset? UpdatedAt { get; set; }
 
-    public Source Source { get; set; }
+    public string Network { get; set; } = null!;
 }

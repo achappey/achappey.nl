@@ -1,4 +1,4 @@
-using achappey.Models;
+using achappey.Extensions;
 
 namespace achappey;
 
@@ -9,8 +9,8 @@ public class GitHubProfile : AutoMapper.Profile
 
         CreateMap<Octokit.User, achappey.Models.Profile>()
           .ForMember(
-                dest => dest.Source,
-                opt => opt.MapFrom(a => Source.GITHUB))
+                dest => dest.Network,
+                opt => opt.MapFrom(a => NetworkExtensions.GitHub))
            .ForMember(
                dest => dest.Id,
                opt => opt.MapFrom(src => src.Id.ToString())
@@ -32,8 +32,8 @@ public class GitHubProfile : AutoMapper.Profile
 
         CreateMap<Octokit.Activity, achappey.Models.Activity>()
         .ForMember(
-                dest => dest.Source,
-                opt => opt.MapFrom(a => Source.GITHUB))
+                dest => dest.Network,
+                opt => opt.MapFrom(a => NetworkExtensions.GitHub))
             .ForMember(
                 dest => dest.Title,
                 opt => opt.MapFrom(src => string.Format("{0} {1}", src.Type.ToString(), src.Repo.Name)));

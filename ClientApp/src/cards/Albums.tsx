@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
-import { Image, Link, makeStyles, SelectTabData, SelectTabEvent, Spinner, Tab, TabList, Tooltip } from '@fluentui/react-components';
+import { Button, Image, Link, makeStyles, SelectTabData, SelectTabEvent, Spinner, Tab, TabList, Tooltip } from '@fluentui/react-components';
 import { useTranslation } from "react-i18next";
 import { ItemCard } from "../components/ItemCard";
+import { SocialLogo } from "../components/SocialLogo";
+import { Lastfm } from "../config/types";
 
 const useStyles = makeStyles({
     albums: {
@@ -39,7 +41,11 @@ const Album: React.FunctionComponent<IAlbum> = (props) => {
     </Tooltip>
 }
 
-export const Albums: React.FunctionComponent = () => {
+interface IAlbums {
+    profile?: any
+}
+
+export const Albums: FunctionComponent<IAlbums> = (props) => {
     const [albums, setAlbums] = useSessionStorage<any[] | undefined | null>('albums', undefined);
     const [filter, setFilter] = useState<string>('7day');
     const { t } = useTranslation();
@@ -65,7 +71,14 @@ export const Albums: React.FunctionComponent = () => {
 
     }, [setAlbums])
 
-    return <ItemCard title={t('Favorite music')}>
+    const buttons = props.profile ? [<Button appearance="subtle" key="languages"
+        onClick={() => window.open(props.profile.url, "_blank")}
+        icon={<SocialLogo width={24} network={Lastfm} />}>
+        {Lastfm}
+    </Button>] : []
+
+    return <ItemCard title={t('Favorite music')}
+        buttons={buttons}>
         <div>
             <div className={classes.selector}>
                 <TabList onTabSelect={getArtists} selectedValue={filter}>
@@ -83,6 +96,7 @@ export const Albums: React.FunctionComponent = () => {
                     </Tab>
                 </TabList>
             </div>
+
             {topArtists &&
                 <div className={classes.albums}>
                     {topArtists}

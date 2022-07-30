@@ -22,7 +22,7 @@ export const Profile: React.FunctionComponent<IProfile> = (props) => {
     return <ItemCard title={props.username}
         buttons={buttons}
         description={description}
-        image={<SocialLogo {...props} height={24} />}>
+        image={<SocialLogo network={props.network} height={24} />}>
         <Link href={props.url} target={"_blank"}>{props.url}</Link>
     </ItemCard>
 }

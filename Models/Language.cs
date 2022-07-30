@@ -15,4 +15,9 @@ public class Language
 
     public int Level { get; set; }
 
+    public string? Url  {
+        get {
+            return Description == "Duolingo" ? string.Format("https://www.duolingo.com/course/{0}/en/Learn-{1}", Code, Name) : null;
+        }
+    }
 }

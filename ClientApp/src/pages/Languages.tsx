@@ -43,7 +43,7 @@ export const Languages: FunctionComponent = () => {
   const languages = useLanguages()
   const { t } = useTranslation()
 
-  const languageItems = languages?.map(y => <Language {...y} />)
+  const languageItems = languages?.map(y => <Language key={y.code} {...y} />)
 
   return <>
     <PageHeader title={t('Languages')} />

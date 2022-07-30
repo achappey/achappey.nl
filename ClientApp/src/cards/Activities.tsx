@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useActivities } from "../hooks/useActivities";
 import { ItemCard } from "../components/ItemCard";
 import { Activity } from "../components/Activity";
+import { Duolingo, GitHub, IActivity, Lastfm, LinkedIn, Twitter, WakaTime } from '../config/types';
 
 const useStyles = makeStyles({
     container: {
@@ -17,15 +18,15 @@ const useStyles = makeStyles({
 
 
 export interface IFilteredActivities {
-    activities: any[] | undefined
+    activities: IActivity[] | undefined
     sources: string[]
     numberOfItems: number
 }
 
 export const FilteredActivities: FunctionComponent<IFilteredActivities> = (props) => {
-    const activities = props.activities?.filter(a => props.sources.indexOf(a.source) > -1)
+    const activities = props.activities?.filter(a => props.sources.indexOf(a.network) > -1)
         .slice(0, props.numberOfItems)
-        .map((a: any) => <Activity key={a.id} activity={a} />);
+        .map((a: any) => <Activity key={a.id} {...a} />);
 
     return <>
         {activities}
@@ -33,16 +34,17 @@ export const FilteredActivities: FunctionComponent<IFilteredActivities> = (props
 }
 
 const chunkSize = 10;
+const allNetworks = `${Duolingo},${GitHub},${Lastfm},${LinkedIn},${Twitter},${WakaTime}`
 
 export const Activities: FunctionComponent = () => {
     const [visibleChunks, setVisibleChunks] = useState<number>(1);
-    const [sources, setSources] = useState<string>("GITHUB,WAKATIME,LASTFM,DUOLINGO");
+    const [sources, setSources] = useState<string>(allNetworks);
     const { t } = useTranslation();
     const activities = useActivities();
     const classes = useStyles()
 
     const showMore = useCallback(() => setVisibleChunks(visibleChunks + 1), [setVisibleChunks, visibleChunks]);
-
+    
     const listProps = {
         activities: activities,
         numberOfItems: chunkSize * visibleChunks
@@ -57,19 +59,19 @@ export const Activities: FunctionComponent = () => {
             <div className={classes.container}>
                 <TabList onTabSelect={setActivities} selectedValue={sources} vertical={false}>
                     <Tab icon={<ListRegular />}
-                        value={"GITHUB,WAKATIME,LASTFM,DUOLINGO"}>
+                        value={allNetworks}>
                         {t("All")}
                     </Tab>
                     <Tab icon={<CodeRegular />}
-                        value={"GITHUB,WAKATIME"}>
+                        value={`${WakaTime},${GitHub}`}>
                         {t("Coding")}
                     </Tab>
                     <Tab icon={<MusicNote2Regular />}
-                        value={"LASTFM"}>
+                        value={`${Lastfm}`}>
                         {t("Listening")}
                     </Tab>
                     <Tab icon={<BookOpenRegular />}
-                        value={"DUOLINGO"}>
+                        value={`${Duolingo}`}>
                         {t("Learning")}
                     </Tab>
                 </TabList>

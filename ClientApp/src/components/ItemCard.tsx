@@ -38,7 +38,7 @@ export const ItemCard: FunctionComponent<IItemCard> = (props) => {
             {props.children}
         </CardPreview>
         <CardFooter>
-            {props.buttons?.map(a => a)}
+            {props.buttons}
         </CardFooter>
     </Card>
 }

@@ -10,7 +10,7 @@ public class WakaTimeProfile : AutoMapper.Profile
         CreateMap<achappey.Connectors.WakaTime.Models.User, Profile>()
           .ConstructUsing(a => new Profile()
           {
-              Source = Source.WAKATIME
+            Network = NetworkExtensions.WakaTime
           })
         .ForMember(
             dest => dest.CreatedAt,
@@ -25,11 +25,11 @@ public class WakaTimeProfile : AutoMapper.Profile
         CreateMap<achappey.Connectors.WakaTime.Models.HeartBeat, Activity>()
         .ConstructUsing(a => new Activity()
         {
-            Source = Source.WAKATIME
+            Network = NetworkExtensions.WakaTime
         })
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => Source.WAKATIME + src.Language + src.Time.ToString()))
+            opt => opt.MapFrom(src => NetworkExtensions.WakaTime + src.Language + src.Time.ToString()))
         .ForMember(
             dest => dest.Title,
             opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Language)

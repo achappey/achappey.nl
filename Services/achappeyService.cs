@@ -1,6 +1,7 @@
 using achappey.Models;
 using achappey.Connectors.WakaTime;
 using achappey.Connectors.Lastfm;
+using achappey.Extensions;
 
 namespace achappey.Services;
 
@@ -49,20 +50,20 @@ public class achappeyService
     private IEnumerable<Profile> baseProfiles = new List<Profile>() {
         new Profile() {
             Username = "achappey",
-            Source = Source.DUOLINGO,
+            Network = NetworkExtensions.Duolingo,
             Id = "https://duolingo.com/achappey",
             Url = "https://duolingo.com/achappey"
         },
         new Profile() {
             Username = "achappey",
-            Source = Source.TWITTER,
+            Network = NetworkExtensions.Twitter,
             Id = "https://twitter.com/achappey",
             Url = "https://twitter.com/achappey"
         },
 
         new Profile() {
             Username = "achappey",
-            Source = Source.LINKEDIN,
+            Network = NetworkExtensions.LinkedIn,
             Id = "https://nl.linkedin.com/in/achappey",
             Url = "https://nl.linkedin.com/in/achappey"
         }
@@ -111,7 +112,7 @@ public class achappeyService
 
         profiles.AddRange(baseProfiles);
 
-        return profiles;
+        return profiles.OrderBy(a => a.Network);
     }
 
     public async Task<IEnumerable<Repository>> GetRepositories()

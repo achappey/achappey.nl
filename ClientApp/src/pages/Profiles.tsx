@@ -24,7 +24,7 @@ export const Profiles: FunctionComponent = () => {
   const { t } = useTranslation()
   const profiles = useProfiles()
 
-  const profileItems = profiles?.map(y => <Profile key={y.source} {...y} />)
+  const profileItems = profiles?.map(y => <Profile key={y.network} {...y} />)
 
 return <>
     <PageHeader title={t('Networks')} />

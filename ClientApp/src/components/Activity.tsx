@@ -2,6 +2,7 @@ import { makeStyles } from "@fluentui/react-components";
 import { CodeRegular, MusicNote2Regular, BookOpenGlobeRegular } from "@fluentui/react-icons";
 import { FunctionComponent } from "react";
 import ReactTimeAgo from "react-time-ago";
+import { Duolingo, GitHub, IActivity, Lastfm, WakaTime } from "../config/types";
 
 const useStyles = makeStyles({
     activity: {
@@ -14,42 +15,38 @@ const useStyles = makeStyles({
 })
 
 interface ISourceIcon {
-    source: string
+    network: string
 }
 
 const SourceIcon: FunctionComponent<ISourceIcon> = (props) => {
-    switch (props.source) {
-        case "GITHUB":
+    switch (props.network) {
+        case GitHub:
             return <CodeRegular fontSize={28} />
-        case "DUOLINGO":
+        case Duolingo:
             return <BookOpenGlobeRegular fontSize={28} />
-        case "WAKATIME":
+        case WakaTime:
             return <CodeRegular fontSize={28} />
-        case "LASTFM":
+        case Lastfm:
             return <MusicNote2Regular fontSize={28} />
         default:
             return <></>;
     }
 }
 
-export interface IActivity {
-    activity: any
-}
 
 export const Activity: React.FunctionComponent<IActivity> = (props) => {
     const classes = useStyles()
 
     return <div className={classes.activity}>
         <div className={classes.activityIcon}>
-            <SourceIcon source={props.activity.source} />
-            {props.activity.icon}
+            <SourceIcon network={props.network} />
         </div>
         <div>
             <div>
-                {props.activity.title}
+                {props.title}
             </div>
             <div>
-                <ReactTimeAgo date={new Date(props.activity.createdAt)} />
+                <ReactTimeAgo date={new Date(props.createdAt)} />
             </div>
         </div>
     </div>

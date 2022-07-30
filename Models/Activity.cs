@@ -10,14 +10,14 @@ public class Activity
 
     public string Title { get; set; } = null!;
 
-    public Source Source { get; set; }
+    public string Network { get; set; } = null!;
 
     public DateTimeOffset CreatedAt { get; set; }
 
 }
 
-public enum Source {
-    GITHUB,
+public enum Source2 {
+    GITHUB ,
     DUOLINGO,
     WAKATIME,
     LASTFM,

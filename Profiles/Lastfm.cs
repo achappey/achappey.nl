@@ -1,4 +1,5 @@
 using achappey.Models;
+using achappey.Extensions;
 
 namespace achappey;
 
@@ -8,8 +9,8 @@ public class LastfmProfile : AutoMapper.Profile
     {
         CreateMap<achappey.Connectors.Lastfm.Models.User, achappey.Models.Profile>()
         .ForMember(
-              dest => dest.Source,
-              opt => opt.MapFrom(a => Source.LASTFM))
+              dest => dest.Network,
+              opt => opt.MapFrom(a => NetworkExtensions.LastFm))
          .ForMember(
              dest => dest.Id,
              opt => opt.MapFrom(src => src.Url))
@@ -34,11 +35,11 @@ public class LastfmProfile : AutoMapper.Profile
         CreateMap<achappey.Connectors.Lastfm.Models.Track, Activity>()
         .ConstructUsing(a => new Activity()
         {
-            Source = Source.LASTFM
+            Network = NetworkExtensions.LastFm
         })
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => Source.LASTFM + src.Date.Uts))
+            opt => opt.MapFrom(src => NetworkExtensions.LastFm + src.Date.Uts))
         .ForMember(
             dest => dest.Title,
             opt => opt.MapFrom(src => string.Format("{0} - {1} ({2})", src.Artist.Name, src.Name, src.Album.Name)))

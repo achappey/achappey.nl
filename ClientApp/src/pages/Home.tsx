@@ -7,6 +7,8 @@ import { ItemCard } from '../components/ItemCard';
 import { Languages } from '../cards/Languages';
 import { Socials } from '../cards/Socials';
 import { me } from '../config/profile';
+import { useProfiles } from '../hooks/useProfiles';
+import { Lastfm } from '../config/types';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles({
 export const Home: FunctionComponent = () => {
   const { t } = useTranslation()
   const classes = useStyles()
+  const profiles = useProfiles()
 
   const avatar = <Avatar name="Arthur Bleij"
     size={56}
@@ -32,6 +35,7 @@ export const Home: FunctionComponent = () => {
   />
 
   const myDescription = <div><div>{me.jobTitle}</div><div>{me.specialties}</div></div>
+  const lastfmProfile = profiles?.find(a => a.network === Lastfm);
 
   return <div className={classes.wrapper}>
     <ItemCard title={me.name} image={avatar}
@@ -46,12 +50,12 @@ export const Home: FunctionComponent = () => {
     </ItemCard>
 
     <div>
-      <Socials />
+      <Socials profiles={profiles} />
       <Languages />
     </div>
 
     <Activities />
 
-    <Albums />
+    <Albums profile={lastfmProfile} />
   </div>
 }

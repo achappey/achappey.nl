@@ -1,36 +1,37 @@
 import { FunctionComponent } from 'react';
 import { Image } from '@fluentui/react-components';
-import { IProfile } from '../config/types';
 import { useTheme } from '../hooks/useTheme';
+import { Duolingo, GitHub, Lastfm, LinkedIn, Twitter, WakaTime } from '../config/types';
 
-interface ISocialLogo extends IProfile {
+interface ISocialLogo {
   width?: number
   height?: number
+  network: string
 }
 
 const profileToLogo = (profile: any) => {
-  switch (profile.source) {
-    case "DUOLINGO":
+  switch (profile.network) {
+    case Duolingo:
       return {
         logo: "/assets/images/Duolingo.svg"
       }
-    case "LINKEDIN":
+    case LinkedIn:
       return {
         logo: "/assets/images/LinkedIn.png"
       }
-    case "TWITTER":
+    case Twitter:
       return {
         logo: "/assets/images/Twitter.png"
       }
-    case "LASTFM":
+    case Lastfm:
       return {
         logo: "/assets/images/Lastfm.png"
       }
-    case "WAKATIME":
+    case WakaTime:
       return {
         logo: "/assets/images/WakaTime.png"
       }
-    case "GITHUB":
+    case GitHub:
       return {
         logo: "/assets/images/GitHub.png",
         darkLogo: "/assets/images/GitHub-dark.png"
@@ -51,6 +52,6 @@ export const SocialLogo: FunctionComponent<ISocialLogo> = (props) => {
       <Image src={logo}
         width={props.width}
         height={props.height}
-      /> : props.source}
+      /> : props.network}
   </>
 }
