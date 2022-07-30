@@ -1,5 +1,6 @@
-import { Button, makeStyles } from "@fluentui/react-components"
+import { Button, makeStyles, Tooltip } from "@fluentui/react-components"
 import { WeatherMoonRegular, WeatherSunnyRegular } from "@fluentui/react-icons"
+import { useTranslation } from "react-i18next";
 import { Logo } from "./Logo";
 import { SelectLanguage } from "./SelectLanguage";
 
@@ -32,6 +33,10 @@ interface IHeader {
 
 export const Header: React.FunctionComponent<IHeader> = (props) => {
     const classes = useStyles()
+    const { t } = useTranslation()
+
+    const themeButtonTitle = props.darkTheme ? t("Select light theme") : t("Select dark theme");
+    const icon = props.darkTheme ? <WeatherSunnyRegular /> : <WeatherMoonRegular />
 
     return <div className={classes.wrapper}>
         <Logo />
@@ -39,7 +44,12 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
         <div>
             <div className={classes.actions}>
                 <div className={classes.selector}>
-                    <Button onClick={props.toggleTheme} icon={props.darkTheme ? <WeatherSunnyRegular /> : <WeatherMoonRegular />} />
+                    <Tooltip content={themeButtonTitle}
+                        relationship="label">
+                        <Button onClick={props.toggleTheme}
+                            icon={icon}
+                        />
+                    </Tooltip>
                 </div>
                 <div className={classes.selector}>
                     <SelectLanguage />

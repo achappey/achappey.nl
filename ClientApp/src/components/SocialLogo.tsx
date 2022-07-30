@@ -9,8 +9,8 @@ interface ISocialLogo {
   network: string
 }
 
-const profileToLogo = (profile: any) => {
-  switch (profile.network) {
+const profileToLogo = (network: string) => {
+  switch (network) {
     case Duolingo:
       return {
         logo: "/assets/images/Duolingo.svg"
@@ -44,7 +44,7 @@ const profileToLogo = (profile: any) => {
 
 export const SocialLogo: FunctionComponent<ISocialLogo> = (props) => {
   const { darkTheme } = useTheme()
-  const profileLogo = profileToLogo(props);
+  const profileLogo = profileToLogo(props.network);
   const logo = darkTheme && profileLogo?.darkLogo ? profileLogo.darkLogo : profileLogo?.logo ? profileLogo.logo : undefined;
 
   return <>
