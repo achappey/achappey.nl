@@ -2,11 +2,14 @@ using achappey.Connectors.Duolingo.Models;
 
 namespace achappey.Connectors.Duolingo;
 
+
 public class DuolingoClient
 {
     private readonly HttpClient _httpClient = null!;
 
     private readonly string _duolingoApiKey;
+
+    public static readonly string DUOLINGO_URL = "https://duolingo.com";
 
     private const string DUOLINGONATOR = "https://duolingonator.net/api";
 

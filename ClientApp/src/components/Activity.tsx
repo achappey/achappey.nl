@@ -1,9 +1,8 @@
 import { makeStyles } from "@fluentui/react-components";
 import { CodeRegular, MusicNote2Regular, BookOpenGlobeRegular } from "@fluentui/react-icons";
 import { FunctionComponent } from "react";
-import { useTranslation } from "react-i18next";
-import ReactTimeAgo from "react-time-ago";
 import { Duolingo, GitHub, IActivity, Lastfm, WakaTime } from "../config/types";
+import { TimeAgo } from "./TimeAgo";
 
 const useStyles = makeStyles({
     activity: {
@@ -36,7 +35,6 @@ const SourceIcon: FunctionComponent<ISourceIcon> = (props) => {
 
 export const Activity: React.FunctionComponent<IActivity> = (props) => {
     const classes = useStyles()
-    const { i18n } = useTranslation()
 
     return <div className={classes.activity}>
         <div className={classes.activityIcon}>
@@ -47,9 +45,7 @@ export const Activity: React.FunctionComponent<IActivity> = (props) => {
                 {props.title}
             </div>
             <div>
-                <ReactTimeAgo locale={i18n.language}
-                    date={new Date(props.createdAt)}
-                />
+                <TimeAgo date={new Date(props.createdAt)} />
             </div>
         </div>
     </div>

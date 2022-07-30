@@ -35,7 +35,7 @@ export const Header: React.FunctionComponent<IHeader> = (props) => {
     const classes = useStyles()
     const { t } = useTranslation()
 
-    const themeButtonTitle = props.darkTheme ? t("Select light theme") : t("Select dark theme");
+    const themeButtonTitle = props.darkTheme ? t("Switch to light theme") : t("Switch to dark theme");
     const icon = props.darkTheme ? <WeatherSunnyRegular /> : <WeatherMoonRegular />
 
     return <div className={classes.wrapper}>

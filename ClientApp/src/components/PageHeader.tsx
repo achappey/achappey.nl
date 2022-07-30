@@ -11,13 +11,9 @@ const useStyles = makeStyles({
     alignItems: "center"
   },
   backButton: {
-    paddingRight: "8px",
-    '@media(min-width: 768px)': {
-      paddingRight: "16px"
-    },
+    paddingRight: "16px"
   }
 })
-
 
 interface IPageHeader {
   title: string

@@ -35,7 +35,9 @@ export const ItemCard: FunctionComponent<IItemCard> = (props) => {
             description={props.description}>
         </CardHeader>
         <CardPreview className={classes.preview}>
-            {props.children}
+            <div>
+                {props.children}
+            </div>
         </CardPreview>
         <CardFooter>
             {props.buttons}

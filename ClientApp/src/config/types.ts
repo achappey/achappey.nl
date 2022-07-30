@@ -5,6 +5,7 @@ export interface IProfile {
     createdAt?: Date
     updatedAt?: Date
     network: string
+    descriptions?: string[]
 }
 
 export interface IActivity {

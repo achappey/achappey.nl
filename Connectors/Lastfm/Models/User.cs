@@ -10,6 +10,8 @@ public class User
 
     public string Url { get; set; } = null!;
 
+    public string PlayCount { get; set; } = null!;
+
     [JsonPropertyName("registered")]
     public Time Registered { get; set; } = null!;
 

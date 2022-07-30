@@ -1,4 +1,5 @@
 using achappey.Extensions;
+using achappey.Models;
 
 namespace achappey;
 
@@ -7,33 +8,39 @@ public class GitHubProfile : AutoMapper.Profile
     public GitHubProfile()
     {
 
-        CreateMap<Octokit.User, achappey.Models.Profile>()
-          .ForMember(
-                dest => dest.Network,
-                opt => opt.MapFrom(a => NetworkExtensions.GitHub))
-           .ForMember(
+        CreateMap<Octokit.User, Profile>()
+            .ConstructUsing(a => new Profile()
+            {
+                Network = NetworkExtensions.GitHub
+            })
+            .ForMember(
                dest => dest.Id,
-               opt => opt.MapFrom(src => src.Id.ToString())
-           )
-           .ForMember(
+               opt => opt.MapFrom(src => src.Id.ToString()))
+            .ForMember(
                dest => dest.Url,
-               opt => opt.MapFrom(src => src.HtmlUrl)
-           )
+               opt => opt.MapFrom(src => src.HtmlUrl))
             .ForMember(
                dest => dest.Username,
-               opt => opt.MapFrom(src => src.Login)
-           ); 
+               opt => opt.MapFrom(src => src.Login))
+            .ForMember(
+               dest => dest.Descriptions,
+               opt => opt.MapFrom(src => new List<string>()
+               {
+                string.Format("{0} public repositories", src.PublicRepos),
+                string.Format("{0} follower(s)", src.Followers)
+               }));
 
-        CreateMap<Octokit.Repository, achappey.Models.Repository>()
+
+        CreateMap<Octokit.Repository, Repository>()
             .ForMember(
                 dest => dest.Id,
-                opt => opt.MapFrom(src => src.Id.ToString())
-            );
+                opt => opt.MapFrom(src => src.Id.ToString()));
 
-        CreateMap<Octokit.Activity, achappey.Models.Activity>()
-        .ForMember(
-                dest => dest.Network,
-                opt => opt.MapFrom(a => NetworkExtensions.GitHub))
+        CreateMap<Octokit.Activity, Activity>()
+            .ConstructUsing(a => new Activity()
+            {
+                Network = NetworkExtensions.GitHub
+            })
             .ForMember(
                 dest => dest.Title,
                 opt => opt.MapFrom(src => string.Format("{0} {1}", src.Type.ToString(), src.Repo.Name)));

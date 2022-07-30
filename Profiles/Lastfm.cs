@@ -8,18 +8,25 @@ public class LastfmProfile : AutoMapper.Profile
     public LastfmProfile()
     {
         CreateMap<achappey.Connectors.Lastfm.Models.User, achappey.Models.Profile>()
-        .ForMember(
-              dest => dest.Network,
-              opt => opt.MapFrom(a => NetworkExtensions.LastFm))
-         .ForMember(
-             dest => dest.Id,
-             opt => opt.MapFrom(src => src.Url))
-         .ForMember(
-             dest => dest.CreatedAt,
-             opt => opt.MapFrom(src => DateTimeOffset.FromUnixTimeSeconds(long.Parse(src.Registered.UnixTime))))
-          .ForMember(
-             dest => dest.Username,
-             opt => opt.MapFrom(src => src.Name));
+            .ConstructUsing(a => new Profile()
+            {
+                Network = NetworkExtensions.LastFm
+            })
+            .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.Url))
+            .ForMember(
+                dest => dest.CreatedAt,
+                opt => opt.MapFrom(src => DateTimeOffset.FromUnixTimeSeconds(long.Parse(src.Registered.UnixTime))))
+            .ForMember(
+                dest => dest.Username,
+                opt => opt.MapFrom(src => src.Name))
+            .ForMember(
+               dest => dest.Descriptions,
+               opt => opt.MapFrom(src => new List<string>()
+               {
+                    string.Format("Listened {0} songs", src.PlayCount)
+               }));
 
         CreateMap<achappey.Connectors.Lastfm.Models.TopAlbum, Album>()
         .ForMember(

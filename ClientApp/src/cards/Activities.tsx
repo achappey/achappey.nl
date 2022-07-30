@@ -1,4 +1,4 @@
-import { TabList, Tab, SelectTabEvent, SelectTabData, makeStyles, Spinner, Button } from "@fluentui/react-components";
+import { TabList, Tab, SelectTabEvent, SelectTabData, makeStyles, Spinner, Button, Tooltip } from "@fluentui/react-components";
 import { ListRegular, CodeRegular, MusicNote2Regular, BookOpenRegular, NextRegular, PreviousRegular } from "@fluentui/react-icons";
 import { useCallback, useState, FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,6 @@ const useStyles = makeStyles({
         paddingBottom: "16px"
     }
 })
-
 
 export interface IFilteredActivities {
     activities: IActivity[] | undefined
@@ -53,27 +52,35 @@ export const Activities: FunctionComponent = () => {
     }
 
     const setActivities = useCallback((_event: SelectTabEvent, data: SelectTabData) => {
+        setCurrentChunk(0)
         setSources(data.value as string)
     }, [setSources])
 
-    const previousButton = <Button appearance="subtle"
-        onClick={showLess}
+    const previousButton = <Tooltip
+        relationship="label"
         key="previous"
-        disabled={currentChunk === 0}
-        icon={<PreviousRegular />} />
+        content={t('Previous')}>
+        <Button appearance="subtle"
+            onClick={showLess}
+            disabled={currentChunk === 0}
+            icon={<PreviousRegular />} />
+    </Tooltip>
 
-    const nextButton = <Button appearance="subtle"
+    const nextButton = <Tooltip
+        relationship="label"
         key="next"
-        onClick={showMore}
-        icon={<NextRegular />} />
+        content={t('Next')}>
+        <Button appearance="subtle"
+            onClick={showMore}
+            icon={<NextRegular />} />
+    </Tooltip>
 
     const buttons = activities ? [
         previousButton,
         nextButton
     ] : []
 
-    return <ItemCard title={t("Activity")}
-        buttons={buttons}>
+    return <ItemCard title={t("Activity")} buttons={buttons}>
         <div>
             <div className={classes.container}>
                 <TabList onTabSelect={setActivities}

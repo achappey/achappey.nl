@@ -18,4 +18,12 @@ public class User
 
     [JsonPropertyName("modified_at")]
     public string ModifiedAt { get; set; } = null!;
+
+    [JsonPropertyName("last_heartbeat_at")]
+    public string LastHeartbeatAt { get; set; } = null!;
+
+    [JsonPropertyName("last_plugin_name")]
+    public string LastPluginName { get; set; } = null!;
+
+    
 }

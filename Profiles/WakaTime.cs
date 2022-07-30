@@ -20,7 +20,13 @@ public class WakaTimeProfile : AutoMapper.Profile
             opt => opt.MapFrom(src => DateTimeOffset.Parse(src.ModifiedAt)))
         .ForMember(
             dest => dest.Url,
-            opt => opt.MapFrom(src => string.Format("https://wakatime.com/{0}", src.Username)));
+            opt => opt.MapFrom(src => string.Format("https://wakatime.com/{0}", src.Username)))
+        .ForMember(
+            dest => dest.Descriptions,
+            opt => opt.MapFrom(src => new List<string>()
+            {
+                string.Format("Using {0}", src.LastPluginName)
+            }));
 
         CreateMap<achappey.Connectors.WakaTime.Models.HeartBeat, Activity>()
         .ConstructUsing(a => new Activity()

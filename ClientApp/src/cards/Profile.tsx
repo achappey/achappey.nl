@@ -4,11 +4,11 @@ import { OpenRegular } from "@fluentui/react-icons"
 import { IProfile } from "../config/types"
 import { useTranslation } from "react-i18next"
 import { SocialLogo } from "../components/SocialLogo"
-import ReactTimeAgo from "react-time-ago"
 import { useCallback } from "react"
+import { TimeAgo } from "../components/TimeAgo"
 
 export const Profile: React.FunctionComponent<IProfile> = (props) => {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
 
     const openUrl = useCallback(() => window.open(props.url, "_blank"), [props.url]);
 
@@ -22,7 +22,7 @@ export const Profile: React.FunctionComponent<IProfile> = (props) => {
     ]
 
     const description = props.createdAt ?
-        <>{t('Since')} <ReactTimeAgo locale={i18n.language} date={new Date(props.createdAt)} /> </>
+        <TimeAgo date={new Date(props.createdAt)} />
         : <>{t('Unknown')}</>
 
     const logo = <Link href={props.url} target="_blank">
@@ -31,9 +31,12 @@ export const Profile: React.FunctionComponent<IProfile> = (props) => {
         />
     </Link>
 
+    const content = <div> {props.descriptions ? props.descriptions.join(", ") : t('Unknown') }</div>
+
     return <ItemCard title={props.network}
         buttons={buttons}
         description={description}
         image={logo}>
+        {content}
     </ItemCard>
 }
