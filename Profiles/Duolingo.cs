@@ -3,7 +3,7 @@ using achappey.Models;
 
 namespace achappey;
 
-public class DuolingoProfile : Profile
+public class DuolingoProfile : AutoMapper.Profile
 {
     public DuolingoProfile()
     {

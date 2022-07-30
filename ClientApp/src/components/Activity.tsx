@@ -1,5 +1,5 @@
 import { makeStyles } from "@fluentui/react-components";
-import { CodeRegular, MusicNote2Regular, BookOpenRegular } from "@fluentui/react-icons";
+import { CodeRegular, MusicNote2Regular, BookOpenGlobeRegular } from "@fluentui/react-icons";
 import { FunctionComponent } from "react";
 import ReactTimeAgo from "react-time-ago";
 
@@ -22,7 +22,7 @@ const SourceIcon: FunctionComponent<ISourceIcon> = (props) => {
         case "GITHUB":
             return <CodeRegular fontSize={28} />
         case "DUOLINGO":
-            return <BookOpenRegular fontSize={28} />
+            return <BookOpenGlobeRegular fontSize={28} />
         case "WAKATIME":
             return <CodeRegular fontSize={28} />
         case "LASTFM":

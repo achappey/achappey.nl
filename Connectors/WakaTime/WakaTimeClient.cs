@@ -15,16 +15,23 @@ public class WakaTimeClient
 
     public async Task<IEnumerable<HeartBeat>> GetHeartBeats(string apiKey, DateTime date)
     {
-        var json = await GetData<HeartBeatData>(apiKey, string.Format("/api/v1/users/current/heartbeats?date={0}", date.ToString("o")));
+        var json = await GetData<WakaTimeResponse<IEnumerable<HeartBeat>>>(apiKey, string.Format("/api/v1/users/current/heartbeats?date={0}", date.ToString("o")));
 
-        return json != null && json.Data != null ? json.Data : new List<HeartBeat>();
+        return json != null && json.Data != null ? json.Data : throw new Exception();
     }
 
     public async Task<IEnumerable<Duration>> GetDurations(string apiKey, DateTime date)
     {
-        var json = await GetData<DurationData>(apiKey, string.Format("/api/v1/users/current/durations?date={0}&slice_by=category", date.ToString("o")));
+        var json = await GetData<WakaTimeResponse<IEnumerable<Duration>>>(apiKey, string.Format("/api/v1/users/current/durations?date={0}&slice_by=category", date.ToString("o")));
 
-        return json != null && json.Data != null ? json.Data : new List<Duration>();
+        return json != null && json.Data != null ? json.Data : throw new Exception();
+    }
+
+    public async Task<User> GetProfile(string apiKey)
+    {
+        var json = await GetData<WakaTimeResponse<User>>(apiKey, "/api/v1/users/current");
+
+        return json != null && json.Data != null ? json.Data : throw new Exception();
     }
 
     private async Task<T?> GetData<T>(string apiKey, string url)
@@ -51,3 +58,5 @@ public class WakaTimeClient
 
 
 }
+
+

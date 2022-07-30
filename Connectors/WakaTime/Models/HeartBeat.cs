@@ -20,15 +20,3 @@ public class HeartBeat
 
 
 }
-
-
-public class HeartBeatData
-{
-    [JsonPropertyName("end")]
-    public DateTimeOffset End { get; set; }
-
-    [JsonPropertyName("data")]
-    public IEnumerable<HeartBeat> Data { get; set; } = null!;
-
-   
-}

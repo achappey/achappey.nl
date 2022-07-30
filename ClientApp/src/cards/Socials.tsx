@@ -1,10 +1,10 @@
-import { makeStyles, Link, Button } from "@fluentui/react-components"
+import { makeStyles, Link, Button, Spinner } from "@fluentui/react-components"
 import { OpenRegular } from "@fluentui/react-icons"
 import { useTranslation } from "react-i18next";
 import { ItemCard } from "../components/ItemCard";
-import { socials } from '../config/profile';
 import { useNavigate } from "react-router";
 import { SocialLogo } from "../components/SocialLogo";
+import { useProfiles } from "../hooks/useProfiles";
 
 const useStyles = makeStyles({
     socialLogo: {
@@ -23,8 +23,10 @@ export const Socials: React.FunctionComponent = () => {
     const classes = useStyles()
     const navigate = useNavigate()
 
-    const profiles = socials?.map(a =>
-        <div key={a.name}
+    const profiles = useProfiles()
+
+    const profileItems = profiles?.map(a =>
+        <div key={a.source}
             className={classes.socialLogo}>
             <Link href={a.url} target="_blank">
                 <SocialLogo {...a} width={32} />
@@ -41,9 +43,15 @@ export const Socials: React.FunctionComponent = () => {
 
     return <ItemCard title={t("Networks")} buttons={buttons}>
         <div>
-            <div className={classes.container}>
-                {profiles}
-            </div>
+            {profileItems &&
+                <div className={classes.container}>
+                    {profileItems}
+                </div>
+            }
+
+            {!profileItems &&
+                <Spinner />
+            }
         </div>
     </ItemCard>
 }

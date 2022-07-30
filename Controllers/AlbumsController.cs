@@ -21,8 +21,8 @@ public class AlbumsController : ControllerBase
 
     [HttpGet(Name = "GetAlbums")]
     [EnableQuery]
-    public async Task<IEnumerable<Album>?> Get(string? period = null)
+    public async Task<IEnumerable<Album>?> Get(string? period = "7day")
     {
-        return await _achappeyService.GetAlbums(period);
+        return await _achappeyService.GetAlbums(period: period != null ? period : "7day");
     }
 }

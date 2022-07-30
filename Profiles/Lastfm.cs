@@ -1,12 +1,25 @@
-using AutoMapper;
 using achappey.Models;
 
 namespace achappey;
 
-public class LastfmProfile : Profile
+public class LastfmProfile : AutoMapper.Profile
 {
     public LastfmProfile()
     {
+        CreateMap<achappey.Connectors.Lastfm.Models.User, achappey.Models.Profile>()
+        .ForMember(
+              dest => dest.Source,
+              opt => opt.MapFrom(a => Source.LASTFM))
+         .ForMember(
+             dest => dest.Id,
+             opt => opt.MapFrom(src => src.Url))
+         .ForMember(
+             dest => dest.CreatedAt,
+             opt => opt.MapFrom(src => DateTimeOffset.FromUnixTimeSeconds(long.Parse(src.Registered.UnixTime))))
+          .ForMember(
+             dest => dest.Username,
+             opt => opt.MapFrom(src => src.Name));
+
         CreateMap<achappey.Connectors.Lastfm.Models.TopAlbum, Album>()
         .ForMember(
             dest => dest.Image,
@@ -16,7 +29,7 @@ public class LastfmProfile : Profile
             opt => opt.MapFrom(src => src.Artist.Name))
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? src.Id : src.Name));
+            opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? src.Id : string.Format("{0} - {1}", src.Artist.Name, src.Name)));
 
         CreateMap<achappey.Connectors.Lastfm.Models.Track, Activity>()
         .ConstructUsing(a => new Activity()

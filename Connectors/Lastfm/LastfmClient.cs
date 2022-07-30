@@ -20,13 +20,20 @@ public class LastfmClient
         return data?.RecentTracks?.Track;
     }
 
-    public async Task<IEnumerable<TopAlbum>?> GetTopAlbums(string apiKey, string username, string period = "overall")
+    public async Task<IEnumerable<TopAlbum>?> GetTopAlbums(string apiKey, string username, string period = "7day")
     {
         var data = await this.GetLastfmData<LastfmTopAlbumsResponse>(apiKey, "user.gettopalbums", string.Format("user={0}&period={1}", username, period));
 
         return data?.TopAlbums?.Album;
     }
-    
+
+    public async Task<User?> GetUser(string apiKey, string username)
+    {
+        var data = await this.GetLastfmData<LastfmUserResponse>(apiKey, "user.getinfo", string.Format("user={0}", username));
+
+        return data?.User;
+    }
+
     private async Task<T?> GetLastfmData<T>(string apiKey, string method, string query)
     {
         return await this._httpClient.GetFromJsonAsync<T>(

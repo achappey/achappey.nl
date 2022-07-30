@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import { makeStyles } from '@fluentui/react-components';
-import { socials } from '../config/profile';
 import { PageHeader } from '../components/PageHeader';
 import { useTranslation } from 'react-i18next';
 import { Profile } from '../cards/Profile';
+import { useProfiles } from '../hooks/useProfiles';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -22,8 +22,9 @@ const useStyles = makeStyles({
 export const Profiles: FunctionComponent = () => {
   const classes = useStyles()
   const { t } = useTranslation()
+  const profiles = useProfiles()
 
-  const profileItems = socials?.map(y => <Profile {...y} />)
+  const profileItems = profiles?.map(y => <Profile key={y.source} {...y} />)
 
 return <>
     <PageHeader title={t('Networks')} />

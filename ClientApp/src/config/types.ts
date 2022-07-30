@@ -1,6 +1,8 @@
-export interface ISocialProfile {
-    name: string
+export interface IProfile {
+    id: string
+    username: string
     url: string
-    logo: string
-    darkLogo?: string
+    createdAt?: Date
+    updatedAt?: Date
+    source: string
 }

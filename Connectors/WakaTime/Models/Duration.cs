@@ -23,14 +23,3 @@ public class Duration
         }
     }
 }
-
-public class DurationData
-{
-    [JsonPropertyName("end")]
-    public DateTimeOffset End { get; set; }
-
-    [JsonPropertyName("data")]
-    public IEnumerable<Duration> Data { get; set; } = null!;
-
-
-}

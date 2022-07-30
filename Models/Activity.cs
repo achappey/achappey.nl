@@ -20,5 +20,7 @@ public enum Source {
     GITHUB,
     DUOLINGO,
     WAKATIME,
-    LASTFM
+    LASTFM,
+    TWITTER,
+    LINKEDIN
 }
