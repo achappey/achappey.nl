@@ -6,6 +6,7 @@ using Microsoft.OData.ModelBuilder;
 using achappey.Services;
 using achappey.Connectors.WakaTime;
 using achappey.Connectors.Lastfm;
+using achappey.Connectors.Duolingo;
 using Octokit;
 
 var odataEndpoint = "odata";
@@ -30,6 +31,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<achappeyService>();
 builder.Services.AddSingleton<WakaTimeClient>();
+builder.Services.AddSingleton<DuolingoClient>();
 builder.Services.AddSingleton<LastfmClient>();
 builder.Services.AddSingleton<GitHubClient>(x => new GitHubClient(new ProductHeaderValue("achappey.nl")));
 

@@ -33,8 +33,9 @@ export const Socials: FunctionComponent<ISocials> = (props) => {
             className={classes.socialLogo}>
             <Tooltip content={a.network}
                 relationship="label">
-                <Link href={a.url} target="_blank">
-                    <SocialLogo width={32}
+                <Link href={a.url}
+                    target="_blank">
+                    <SocialLogo height={32}
                         network={a.network}
                     />
                 </Link>

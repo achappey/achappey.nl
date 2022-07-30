@@ -8,7 +8,7 @@ import { Languages } from '../cards/Languages';
 import { Socials } from '../cards/Socials';
 import { me } from '../config/profile';
 import { useProfiles } from '../hooks/useProfiles';
-import { Lastfm } from '../config/types';
+import { Duolingo, Lastfm } from '../config/types';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -18,44 +18,55 @@ const useStyles = makeStyles({
     '@media(min-width: 768px)': {
       gridTemplateColumns: "repeat(2, 1fr)",
     },
+  },
+  avatar: {
+    width: '60px',
+    height: '60px'
   }
 })
-
 
 export const Home: FunctionComponent = () => {
   const { t } = useTranslation()
   const classes = useStyles()
   const profiles = useProfiles()
+  const lastfmProfile = profiles?.find(a => a.network === Lastfm);
+  const duolingoProfile = profiles?.find(a => a.network === Duolingo);
 
   const avatar = <Avatar name="Arthur Bleij"
     size={56}
-    style={{ width: '60px', height: '60px' }}
+    className={classes.avatar}
     image={{ src: me.image }}
     badge={{ status: 'busy' }}
   />
 
-  const myDescription = <div><div>{me.jobTitle}</div><div>{me.specialties}</div></div>
-  const lastfmProfile = profiles?.find(a => a.network === Lastfm);
+  const myDescription = <div>
+    <div>
+      {me.jobTitle}
+    </div>
+    <div>
+      {me.specialties}
+    </div>
+  </div>
 
   return <div className={classes.wrapper}>
-    <ItemCard title={me.name} image={avatar}
-      description={myDescription}>
-      <div>
-        <p>
-          {t("PrimaryDescription")}
-        </p>
+    <div>
+      <ItemCard title={me.name} image={avatar}
+        description={myDescription}>
+        <div>
+          <p>
+            {t("PrimaryDescription")}
+          </p>
 
-        {t("SecondaryDescription")}
-      </div>
-    </ItemCard>
+          {t("SecondaryDescription")}
+        </div>
+      </ItemCard>
 
+      <Activities />
+    </div>
     <div>
       <Socials profiles={profiles} />
-      <Languages />
+      <Languages profile={duolingoProfile} />
+      <Albums profile={lastfmProfile} />
     </div>
-
-    <Activities />
-
-    <Albums profile={lastfmProfile} />
   </div>
 }

@@ -1,7 +1,6 @@
 
-using System.Text.Json.Serialization;
 
-namespace achappey.Models;
+namespace achappey.Connectors.Duolingo.Models;
 
 public class Skill
 {

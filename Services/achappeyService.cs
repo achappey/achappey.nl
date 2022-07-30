@@ -1,6 +1,7 @@
 using achappey.Models;
 using achappey.Connectors.WakaTime;
 using achappey.Connectors.Lastfm;
+using achappey.Connectors.Duolingo;
 using achappey.Extensions;
 
 namespace achappey.Services;
@@ -11,6 +12,8 @@ public class achappeyService
 
     private readonly WakaTimeClient _wakaTime;
 
+    private readonly DuolingoClient _duolingo;
+
     private readonly LastfmClient _lastfm;
 
     private readonly HttpClient _httpClient;
@@ -19,59 +22,19 @@ public class achappeyService
 
     private readonly string _wakatimeApiKey;
 
-    private readonly string _duolingoApiKey;
-
     private readonly string _lastfmApiKey;
 
     private const string GITHUB_USERNAME = "achappey";
 
     private const string LASTFM_USERNAME = "achappey";
 
-    private const string DUOLINGONATOR = "https://duolingonator.net/api";
-
-    private IEnumerable<Language> baseLanguages = new List<Language>() {
-        new Language() {
-            Code = "nl",
-            Name = "Dutch",
-            Description = "Native",
-            Points = 999999,
-            Level = 99
-        },
-        new Language() {
-            Code = "gb",
-            Name = "English",
-            Description = "Professional",
-            Points = 100000,
-            Level = 75
-        }
-
-    };
-
-    private IEnumerable<Profile> baseProfiles = new List<Profile>() {
-        new Profile() {
-            Username = "achappey",
-            Network = NetworkExtensions.Duolingo,
-            Id = "https://duolingo.com/achappey",
-            Url = "https://duolingo.com/achappey"
-        },
-        new Profile() {
-            Username = "achappey",
-            Network = NetworkExtensions.Twitter,
-            Id = "https://twitter.com/achappey",
-            Url = "https://twitter.com/achappey"
-        },
-
-        new Profile() {
-            Username = "achappey",
-            Network = NetworkExtensions.LinkedIn,
-            Id = "https://nl.linkedin.com/in/achappey",
-            Url = "https://nl.linkedin.com/in/achappey"
-        }
-
-    };
-
-    public achappeyService(
-        HttpClient client, Octokit.GitHubClient github, AutoMapper.IMapper mapper, WakaTimeClient wakaTime, IConfiguration config, LastfmClient lastfm)
+    public achappeyService(HttpClient client,
+    Octokit.GitHubClient github,
+    AutoMapper.IMapper mapper,
+    WakaTimeClient wakaTime,
+    IConfiguration config,
+    LastfmClient lastfm,
+    DuolingoClient duolingo)
 
     {
         _github = github;
@@ -79,9 +42,9 @@ public class achappeyService
         _wakaTime = wakaTime;
         _httpClient = client;
         _lastfm = lastfm;
+        _duolingo = duolingo;
 
         this._wakatimeApiKey = config.GetValue<string>("WakaTime");
-        this._duolingoApiKey = config.GetValue<string>("Duolingo");
         this._lastfmApiKey = config.GetValue<string>("Lastfm");
     }
 
@@ -110,7 +73,14 @@ public class achappeyService
             profiles.Add(this._mapper.Map<Profile>(lastFm));
         }
 
-        profiles.AddRange(baseProfiles);
+        var duolingo = await this._duolingo.GetUser();
+
+        if (duolingo != null)
+        {
+            profiles.Add(this._mapper.Map<Profile>(duolingo));
+        }
+
+        profiles.AddRange(NetworkExtensions.BaseProfiles);
 
         return profiles.OrderBy(a => a.Network);
     }
@@ -136,7 +106,7 @@ public class achappeyService
         mappedEvents.AddRange(await this.GetMusicActivity());
         mappedEvents.AddRange(await this.GetCodingActivity());
 
-        var activeLanguage = await this.GetActiveLanguage();
+        var activeLanguage = await this._duolingo.GetActiveLanguage();
 
         if (activeLanguage != null)
         {
@@ -149,17 +119,15 @@ public class achappeyService
 
     public async Task<IEnumerable<Language>> GetLanguages()
     {
-        var languages = baseLanguages.ToList();
+        var languages = NetworkExtensions.BaseLanguages.ToList();
 
-        if (this._duolingoApiKey != null)
+        var result = await this._duolingo.GetLanguages();
+
+        if (result != null)
         {
-            var result = await this._httpClient.GetFromJsonAsync<IEnumerable<Language>>(
-               string.Format("{1}/languages?x-api-key={0}", this._duolingoApiKey, DUOLINGONATOR));
-
-            if (result != null)
-            {
-                languages.AddRange(result.OrderByDescending(g => g.Points));
-            }
+            languages.AddRange(
+                result.OrderByDescending(g => g.Points)
+                .Select(a => this._mapper.Map<Language>(a)));
         }
 
         return languages;
@@ -170,19 +138,6 @@ public class achappeyService
         var topArtists = await this._lastfm.GetTopAlbums(this._lastfmApiKey, LASTFM_USERNAME, period);
 
         return topArtists?.Select(a => this._mapper.Map<Album>(a));
-    }
-
-    private async Task<ActiveLanguage?> GetActiveLanguage()
-    {
-        if (this._duolingoApiKey != null)
-        {
-            return await this._httpClient.GetFromJsonAsync<ActiveLanguage>(
-               string.Format("{1}/activeLanguage?x-api-key={0}", this._duolingoApiKey, DUOLINGONATOR));
-
-
-        }
-
-        return null;
     }
 
     private async Task<IEnumerable<Activity>> GetMusicActivity()
@@ -227,7 +182,6 @@ public class achappeyService
             }
 
         }
-
 
         return items.GroupBy(v => v.Title).Select(b => b.OrderByDescending(z => z.CreatedAt).First());
     }

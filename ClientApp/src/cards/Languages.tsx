@@ -5,6 +5,9 @@ import { useNavigate } from "react-router";
 import { useLanguages } from "../hooks/useLanguages";
 import { ItemCard } from "../components/ItemCard";
 import { LanguageFlag } from "../components/LanguageFlag";
+import { SocialLogo } from "../components/SocialLogo";
+import { Duolingo, IProfile } from "../config/types";
+import { FunctionComponent, useCallback } from "react";
 
 const useStyles = makeStyles({
     flags: {
@@ -17,12 +20,16 @@ const useStyles = makeStyles({
         flexWrap: "wrap"
     },
 })
+interface ILanguages {
+    profile?: IProfile
+}
 
-export const Languages: React.FunctionComponent = () => {
+export const Languages: FunctionComponent<ILanguages> = (props) => {
     const languages = useLanguages()
     const { t } = useTranslation()
     const classes = useStyles()
     const navigate = useNavigate()
+    const openUrl = useCallback(() => window.open(props.profile?.url, "_blank"), [props.profile]);
 
     const flags = languages?.map(a => <div key={a.code} className={classes.flags}>
         {a.url ? <Link href={a.url}
@@ -35,10 +42,16 @@ export const Languages: React.FunctionComponent = () => {
 
     const buttons = languages ? [
         <Button appearance="subtle"
-            key="languages"
+            key="more"
             onClick={() => navigate("/languages")}
             icon={<OpenRegular />}>
             {t("Show more")}
+        </Button>,
+        <Button appearance="subtle"
+            key="duolingo"
+            onClick={openUrl}
+            icon={<SocialLogo width={24} network={Duolingo} />}>
+            {Duolingo}
         </Button>
     ] : []
 

@@ -1,5 +1,5 @@
 
-namespace achappey.Models;
+namespace achappey.Connectors.Duolingo.Models;
 
 public class ActiveLanguage
 {

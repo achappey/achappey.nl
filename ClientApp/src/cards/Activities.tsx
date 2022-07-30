@@ -1,5 +1,5 @@
-import { TabList, Tab, Link, SelectTabEvent, SelectTabData, makeStyles, Spinner } from "@fluentui/react-components";
-import { ListRegular, CodeRegular, MusicNote2Regular, BookOpenRegular } from "@fluentui/react-icons";
+import { TabList, Tab, SelectTabEvent, SelectTabData, makeStyles, Spinner, Button } from "@fluentui/react-components";
+import { ListRegular, CodeRegular, MusicNote2Regular, BookOpenRegular, NextRegular, PreviousRegular } from "@fluentui/react-icons";
 import { useCallback, useState, FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { useActivities } from "../hooks/useActivities";
@@ -21,11 +21,12 @@ export interface IFilteredActivities {
     activities: IActivity[] | undefined
     sources: string[]
     numberOfItems: number
+    startFrom: number
 }
 
 export const FilteredActivities: FunctionComponent<IFilteredActivities> = (props) => {
     const activities = props.activities?.filter(a => props.sources.indexOf(a.network) > -1)
-        .slice(0, props.numberOfItems)
+        .slice(props.startFrom, props.startFrom + props.numberOfItems)
         .map((a: any) => <Activity key={a.id} {...a} />);
 
     return <>
@@ -37,27 +38,47 @@ const chunkSize = 10;
 const allNetworks = `${Duolingo},${GitHub},${Lastfm},${LinkedIn},${Twitter},${WakaTime}`
 
 export const Activities: FunctionComponent = () => {
-    const [visibleChunks, setVisibleChunks] = useState<number>(1);
+    const [currentChunk, setCurrentChunk] = useState<number>(0);
     const [sources, setSources] = useState<string>(allNetworks);
     const { t } = useTranslation();
     const activities = useActivities();
     const classes = useStyles()
 
-    const showMore = useCallback(() => setVisibleChunks(visibleChunks + 1), [setVisibleChunks, visibleChunks]);
-    
+    const showMore = useCallback(() => setCurrentChunk(currentChunk + 1), [setCurrentChunk, currentChunk]);
+    const showLess = useCallback(() => setCurrentChunk(currentChunk - 1), [setCurrentChunk, currentChunk]);
+
     const listProps = {
         activities: activities,
-        numberOfItems: chunkSize * visibleChunks
+        numberOfItems: chunkSize
     }
 
     const setActivities = useCallback((_event: SelectTabEvent, data: SelectTabData) => {
         setSources(data.value as string)
     }, [setSources])
 
-    return <ItemCard title={t("Activity")}>
+    const previousButton = <Button appearance="subtle"
+        onClick={showLess}
+        key="previous"
+        disabled={currentChunk === 0}
+        icon={<PreviousRegular />} />
+
+    const nextButton = <Button appearance="subtle"
+        key="next"
+        onClick={showMore}
+        icon={<NextRegular />} />
+
+    const buttons = activities ? [
+        previousButton,
+        nextButton
+    ] : []
+
+    return <ItemCard title={t("Activity")}
+        buttons={buttons}>
         <div>
             <div className={classes.container}>
-                <TabList onTabSelect={setActivities} selectedValue={sources} vertical={false}>
+                <TabList onTabSelect={setActivities}
+                    selectedValue={sources}
+                    vertical={false}>
                     <Tab icon={<ListRegular />}
                         value={allNetworks}>
                         {t("All")}
@@ -77,17 +98,13 @@ export const Activities: FunctionComponent = () => {
                 </TabList>
             </div>
 
-            <FilteredActivities sources={sources.split(",")}
-                {...listProps} />
-
-            {activities &&
-                <Link onClick={showMore}>
-                    {t("Show more")}
-                </Link>
-            }
+            <FilteredActivities startFrom={currentChunk * chunkSize}
+                sources={sources.split(",")}
+                {...listProps}
+            />
 
             {!activities &&
-               <Spinner />
+                <Spinner />
             }
         </div>
     </ItemCard>
