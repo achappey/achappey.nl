@@ -16,7 +16,7 @@ public class HeartBeat
     public float Time { get; set; }
 
     [JsonPropertyName("lines")]
-    public int Lines { get; set; }
+    public int? Lines { get; set; }
 
 
 }

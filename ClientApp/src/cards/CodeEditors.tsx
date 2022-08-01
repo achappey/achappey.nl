@@ -22,7 +22,7 @@ export const CodeEditors: FunctionComponent<ICodeEditors> = (props) => {
                     <BarChart data={props.editorActivity}>
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip  />
                         <Legend />
                         {bars}
                     </BarChart>
