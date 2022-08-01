@@ -1,4 +1,4 @@
-import { makeStyles, Link, Button, Spinner, Tooltip } from "@fluentui/react-components"
+import { makeStyles, Link, Button, Tooltip } from "@fluentui/react-components"
 import { OpenRegular } from "@fluentui/react-icons"
 import { useTranslation } from "react-i18next";
 import { ItemCard } from "../components/ItemCard";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { SocialLogo } from "../components/SocialLogo";
 import { FunctionComponent } from "react";
 import { IProfile } from "../config/types";
+import { Loader } from "../components/Loader";
 
 const useStyles = makeStyles({
     socialLogo: {
@@ -61,7 +62,7 @@ export const Socials: FunctionComponent<ISocials> = (props) => {
             }
 
             {!profileItems &&
-                <Spinner />
+                <Loader />
             }
         </div>
     </ItemCard>

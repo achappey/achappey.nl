@@ -15,12 +15,3 @@ public class Activity
     public DateTimeOffset CreatedAt { get; set; }
 
 }
-
-public enum Source2 {
-    GITHUB ,
-    DUOLINGO,
-    WAKATIME,
-    LASTFM,
-    TWITTER,
-    LINKEDIN
-}

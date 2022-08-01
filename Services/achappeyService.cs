@@ -3,6 +3,7 @@ using achappey.Connectors.WakaTime;
 using achappey.Connectors.Lastfm;
 using achappey.Connectors.Duolingo;
 using achappey.Extensions;
+using System.Globalization;
 
 namespace achappey.Services;
 
@@ -135,9 +136,32 @@ public class achappeyService
 
     public async Task<IEnumerable<Album>?> GetAlbums(string period = "7day")
     {
-        var topArtists = await this._lastfm.GetTopAlbums(this._lastfmApiKey, LASTFM_USERNAME, period);
+        var items = await this._lastfm.GetTopAlbums(this._lastfmApiKey, LASTFM_USERNAME, period);
 
-        return topArtists?.Select(a => this._mapper.Map<Album>(a));
+        return items?.Select(a => this._mapper.Map<Album>(a));
+    }
+
+    public async Task<Dictionary<int, CodingActivitiy>?> GetCoding()
+    {
+        var items = await this._wakaTime.GetSummaries(this._wakatimeApiKey, DateTime.Now.AddDays(-27).StartOfWeek(DayOfWeek.Monday), DateTime.Now);
+
+        return items?.GroupBy(a => ISOWeek.GetWeekOfYear(DateTime.Parse(a.Range.Date)))
+            .ToDictionary(a => a.Key, a => new CodingActivitiy()
+            {
+                Languages = a.SelectMany(z => z.Languages).GroupBy(y => y.Name).Select(k =>
+                new CodingTime()
+                {
+                    Name = k.Key,
+                    Seconds = k.Sum(z => z.TotalSeconds)
+                }),
+                Editors = a.SelectMany(z => z.Editors).GroupBy(y => y.Name).Select(k =>
+                new CodingTime()
+                {
+                    Name = k.Key,
+                    Seconds = k.Sum(z => z.TotalSeconds)
+                })
+
+            });
     }
 
     private async Task<IEnumerable<Activity>> GetMusicActivity()

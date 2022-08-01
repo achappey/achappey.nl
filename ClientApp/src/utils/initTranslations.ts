@@ -1,29 +1,19 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
-
-import en from "../config/translations/en.json";
-import nl from "../config/translations/nl.json";
+import HttpApi from "i18next-http-backend";
 
 export const initTranslations = () => {
     i18n
-        .use(LanguageDetector)
         .use(initReactI18next)
+        .use(HttpApi)
+        .use(LanguageDetector)
         .init({
-            resources: {
-                en: {
-                    translation: en
-                },
-                nl: {
-                    translation: nl
-                }
-            },
             fallbackLng: "en",
             interpolation: {
                 escapeValue: false 
             }
         });
-
 }
 
 

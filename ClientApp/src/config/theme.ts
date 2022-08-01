@@ -1,4 +1,4 @@
-import { createLightTheme, createDarkTheme } from '@fluentui/react-components';
+import { createLightTheme, createDarkTheme, tokens } from '@fluentui/react-components';
 
 const theme = {
     "10": "#5e3d00",
@@ -22,3 +22,15 @@ const theme = {
   export const customLightTheme = createLightTheme(theme);
   export const customDarkTheme = createDarkTheme(theme);
   
+  
+export const chartColors = [
+  tokens.colorPaletteLightGreenBackground3,
+  tokens.colorPaletteBerryBackground3,
+  tokens.colorPaletteBlueForeground2,
+  tokens.colorPaletteCranberryBackground2,
+  tokens.colorPaletteLavenderBackground2,
+  tokens.colorPaletteAnchorBackground2,
+  tokens.colorPaletteRedBackground3,
+  tokens.colorPaletteBrassBackground2,
+  tokens.colorPaletteSeafoamBackground2
+]

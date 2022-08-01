@@ -1,10 +1,11 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
-import { Button, Image, Link, makeStyles, SelectTabData, SelectTabEvent, Spinner, Tab, TabList, Tooltip } from '@fluentui/react-components';
+import { Button, Image, Link, makeStyles, SelectTabData, SelectTabEvent, Tab, TabList, Tooltip } from '@fluentui/react-components';
 import { useTranslation } from "react-i18next";
 import { ItemCard } from "../components/ItemCard";
 import { SocialLogo } from "../components/SocialLogo";
 import { Lastfm } from "../config/types";
+import { Loader } from "../components/Loader";
 
 const useStyles = makeStyles({
     albums: {
@@ -104,7 +105,7 @@ export const Albums: FunctionComponent<IAlbums> = (props) => {
             }
 
             {!topArtists &&
-                <Spinner />
+                <Loader />
             }
 
         </div>

@@ -26,7 +26,7 @@ export const Profiles: FunctionComponent = () => {
 
   const profileItems = profiles?.map(y => <Profile key={y.network} {...y} />)
 
-return <>
+  return <>
     <PageHeader title={t('Networks')} />
 
     <div className={classes.wrapper}>

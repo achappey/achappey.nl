@@ -1,4 +1,4 @@
-import { Button, Link, makeStyles, Spinner } from "@fluentui/react-components"
+import { Button, Link, makeStyles } from "@fluentui/react-components"
 import { OpenRegular } from "@fluentui/react-icons"
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -8,6 +8,7 @@ import { LanguageFlag } from "../components/LanguageFlag";
 import { SocialLogo } from "../components/SocialLogo";
 import { Duolingo, IProfile } from "../config/types";
 import { FunctionComponent, useCallback } from "react";
+import { Loader } from "../components/Loader";
 
 const useStyles = makeStyles({
     flags: {
@@ -64,7 +65,7 @@ export const Languages: FunctionComponent<ILanguages> = (props) => {
             }
 
             {!languages &&
-                <Spinner />
+                <Loader />
             }
 
         </div>

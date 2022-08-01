@@ -4,7 +4,8 @@ import en from 'javascript-time-ago/locale/en.json'
 import nl from 'javascript-time-ago/locale/nl.json'
 
 export const initTimeAgo = () => {
-    TimeAgo.addDefaultLocale(en)
+    TimeAgo.setDefaultLocale(en.locale)
+    TimeAgo.addLocale(en)
     TimeAgo.addLocale(nl)
 }
 

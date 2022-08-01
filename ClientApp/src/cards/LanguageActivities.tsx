@@ -1,10 +1,10 @@
-import { Spinner } from "@fluentui/react-components";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { useActivities } from "../hooks/useActivities";
 import { ItemCard } from "../components/ItemCard";
 import { Activity } from "../components/Activity";
 import { Duolingo } from "../config/types";
+import { Loader } from "../components/Loader";
 
 export const LanguageActivities: FunctionComponent = () => {
     const { t } = useTranslation();
@@ -18,7 +18,7 @@ export const LanguageActivities: FunctionComponent = () => {
             {activity}
 
             {!activities &&
-                <Spinner />
+                <Loader />
             }
         </div>
     </ItemCard>

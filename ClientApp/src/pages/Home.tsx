@@ -9,6 +9,9 @@ import { Socials } from '../cards/Socials';
 import { me } from '../config/profile';
 import { useProfiles } from '../hooks/useProfiles';
 import { Duolingo, Lastfm } from '../config/types';
+import { CodeLanguages } from '../cards/CodeLanguages';
+import { CodeEditors } from '../cards/CodeEditors';
+import { useCoding } from '../hooks/useCoding';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -31,6 +34,7 @@ export const Home: FunctionComponent = () => {
   const profiles = useProfiles()
   const lastfmProfile = profiles?.find(a => a.network === Lastfm);
   const duolingoProfile = profiles?.find(a => a.network === Duolingo);
+  const { editorActivity, editors, languageActivity } = useCoding()
 
   const avatar = <Avatar name="Arthur Bleij"
     size={56}
@@ -62,11 +66,17 @@ export const Home: FunctionComponent = () => {
       </ItemCard>
 
       <Activities />
+
+      <CodeLanguages languageActivity={languageActivity} />
     </div>
     <div>
       <Socials profiles={profiles} />
+
       <Languages profile={duolingoProfile} />
+
       <Albums profile={lastfmProfile} />
+
+      <CodeEditors editorActivity={editorActivity} editors={editors} />
     </div>
   </div>
 }

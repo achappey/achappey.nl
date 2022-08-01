@@ -10,7 +10,7 @@ public class WakaTimeProfile : AutoMapper.Profile
         CreateMap<achappey.Connectors.WakaTime.Models.User, Profile>()
           .ConstructUsing(a => new Profile()
           {
-            Network = NetworkExtensions.WakaTime
+              Network = NetworkExtensions.WakaTime
           })
         .ForMember(
             dest => dest.CreatedAt,
@@ -44,5 +44,6 @@ public class WakaTimeProfile : AutoMapper.Profile
         .ForMember(
             dest => dest.CreatedAt,
             opt => opt.MapFrom(src => DateTimeOffset.FromUnixTimeSeconds((long)src.Time)));
+
     }
 }

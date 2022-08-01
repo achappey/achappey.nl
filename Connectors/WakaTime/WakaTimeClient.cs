@@ -15,14 +15,28 @@ public class WakaTimeClient
 
     public async Task<IEnumerable<HeartBeat>> GetHeartBeats(string apiKey, DateTime date)
     {
-        var json = await GetData<WakaTimeResponse<IEnumerable<HeartBeat>>>(apiKey, string.Format("/api/v1/users/current/heartbeats?date={0}", date.ToString("o")));
+        var json = await GetData<WakaTimeResponse<IEnumerable<HeartBeat>>>(apiKey,
+            string.Format("/api/v1/users/current/heartbeats?date={0}",
+            date.ToString("o")));
 
         return json != null && json.Data != null ? json.Data : throw new Exception();
     }
 
     public async Task<IEnumerable<Duration>> GetDurations(string apiKey, DateTime date)
     {
-        var json = await GetData<WakaTimeResponse<IEnumerable<Duration>>>(apiKey, string.Format("/api/v1/users/current/durations?date={0}&slice_by=category", date.ToString("o")));
+        var json = await GetData<WakaTimeResponse<IEnumerable<Duration>>>(apiKey,
+            string.Format("/api/v1/users/current/durations?date={0}&slice_by=category",
+            date.ToString("o")));
+
+        return json != null && json.Data != null ? json.Data : throw new Exception();
+    }
+
+    public async Task<IEnumerable<Summary>> GetSummaries(string apiKey, DateTime startDate, DateTime endDate)
+    {
+        var json = await GetData<WakaTimeResponse<IEnumerable<Summary>>>(apiKey,
+            string.Format("/api/v1/users/current/summaries?start={0}&end={1}",
+            startDate.ToString("o"),
+            endDate.ToString("o")));
 
         return json != null && json.Data != null ? json.Data : throw new Exception();
     }

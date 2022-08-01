@@ -1,4 +1,4 @@
-import { TabList, Tab, SelectTabEvent, SelectTabData, makeStyles, Spinner, Button, Tooltip } from "@fluentui/react-components";
+import { TabList, Tab, SelectTabEvent, SelectTabData, makeStyles, Button, Tooltip } from "@fluentui/react-components";
 import { ListRegular, CodeRegular, MusicNote2Regular, BookOpenRegular, NextRegular, PreviousRegular } from "@fluentui/react-icons";
 import { useCallback, useState, FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,7 @@ import { useActivities } from "../hooks/useActivities";
 import { ItemCard } from "../components/ItemCard";
 import { Activity } from "../components/Activity";
 import { Duolingo, GitHub, IActivity, Lastfm, LinkedIn, Twitter, WakaTime } from '../config/types';
+import { Loader } from "../components/Loader";
 
 const useStyles = makeStyles({
     container: {
@@ -111,7 +112,7 @@ export const Activities: FunctionComponent = () => {
             />
 
             {!activities &&
-                <Spinner />
+                <Loader />
             }
         </div>
     </ItemCard>
