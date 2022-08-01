@@ -14,22 +14,22 @@ export const CodeLanguages: React.FunctionComponent<ICodeLanguages> = (props) =>
 
     const bars = props.languageActivity?.map((k: any, i: number) => <Cell key={k.name} fill={chartColors[i] ? chartColors[i] : undefined} />)
 
-    return <ItemCard title={t('Used development languages')}
+    return <ItemCard title={t('Development languages')}
         description={t('Hours last weeks')}>
 
         {props.languageActivity &&
             <div style={{ height: 300 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart height={300}>
+                <ResponsiveContainer>
+                    <PieChart>
                         <Pie dataKey="value"
+                            stroke="none"
                             data={props.languageActivity}
                             cx="50%"
-                            cy="50%"
-                            outerRadius={100}>
+                            cy="50%">
                             {bars}
                         </Pie>
                         <Tooltip />
-                        <Legend />
+                        <Legend layout="vertical" align="right" />
                     </PieChart>
                 </ResponsiveContainer>
             </div>

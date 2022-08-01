@@ -24,13 +24,13 @@ const theme = {
   
   
 export const chartColors = [
+  tokens.colorBrandForeground1,
   tokens.colorPaletteLightGreenBackground3,
-  tokens.colorPaletteBerryBackground3,
+  tokens.colorPaletteTealBorderActive,
   tokens.colorPaletteBlueForeground2,
-  tokens.colorPaletteCranberryBackground2,
-  tokens.colorPaletteLavenderBackground2,
-  tokens.colorPaletteAnchorBackground2,
+  tokens.colorPaletteNavyBorderActive,
   tokens.colorPaletteRedBackground3,
-  tokens.colorPaletteBrassBackground2,
-  tokens.colorPaletteSeafoamBackground2
+  tokens.colorPalettePumpkinForeground2,
+  tokens.colorPaletteBerryBackground3,
+  tokens.colorPaletteGoldBorderActive,
 ]

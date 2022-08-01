@@ -42,17 +42,18 @@ export const Languages: FunctionComponent<ILanguages> = (props) => {
     </div>);
 
     const buttons = languages ? [
-        <Button appearance="subtle"
-            key="more"
-            onClick={() => navigate("/languages")}
-            icon={<OpenRegular />}>
-            {t("Show more")}
-        </Button>,
+
         <Button appearance="subtle"
             key="duolingo"
             onClick={openUrl}
             icon={<SocialLogo width={24} network={Duolingo} />}>
             {Duolingo}
+        </Button>,
+        <Button appearance="subtle"
+            key="more"
+            onClick={() => navigate("/languages")}
+            icon={<OpenRegular />}>
+            {t("Show more")}
         </Button>
     ] : []
 

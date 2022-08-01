@@ -13,17 +13,15 @@ interface ICodeEditors {
 export const CodeEditors: FunctionComponent<ICodeEditors> = (props) => {
     const { t } = useTranslation()
 
-    const bars = props.editors?.map((k: any, i: number) => <Bar key={k} dataKey={k} fill={chartColors[i] ? chartColors[i] : undefined} />)
+    const bars = props.editors?.map((k: any, i: number) => <Bar stroke="none" key={k} dataKey={k} fill={chartColors[i] ? chartColors[i] : undefined} />)
 
-    return <ItemCard title={t('Used editors')} description={t('Hours per week')}>
+    return <ItemCard title={t('Editors')} description={t('Hours per week')}>
         {props.editorActivity &&
             <div style={{ height: 300 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                        height={300}
-                        data={props.editorActivity}>
+                <ResponsiveContainer>
+                    <BarChart data={props.editorActivity}>
                         <XAxis dataKey="name" />
-                        <YAxis label={{ value: t('Hours'), angle: -90, position: 'insideLeft' }} />
+                        <YAxis />
                         <Tooltip />
                         <Legend />
                         {bars}

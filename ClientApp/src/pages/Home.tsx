@@ -67,14 +67,14 @@ export const Home: FunctionComponent = () => {
 
       <Activities />
 
-      <CodeLanguages languageActivity={languageActivity} />
+      <Albums profile={lastfmProfile} />
     </div>
     <div>
       <Socials profiles={profiles} />
 
       <Languages profile={duolingoProfile} />
 
-      <Albums profile={lastfmProfile} />
+      <CodeLanguages languageActivity={languageActivity} />
 
       <CodeEditors editorActivity={editorActivity} editors={editors} />
     </div>
