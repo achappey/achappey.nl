@@ -43,7 +43,7 @@ builder.Services.AddAzureClients(builder =>
     //builder.AddSecretClient(keyVaultUrl);
 
     // Add a storage account client
-    builder.AddBlobServiceClient(blobStorage);
+   // builder.AddBlobServiceClient(blobStorage);
 
     // Use the environment credential by default
     //builder.UseCredential(new EnvironmentCredential());

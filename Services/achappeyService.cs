@@ -40,8 +40,8 @@ public class achappeyService
     WakaTimeClient wakaTime,
     IConfiguration config,
     LastfmClient lastfm,
-    DuolingoClient duolingo,
-    BlobServiceClient blobServiceClient)
+    DuolingoClient duolingo)
+   // BlobServiceClient blobServiceClient)
 
     {
         _github = github;
@@ -50,12 +50,12 @@ public class achappeyService
         _httpClient = client;
         _lastfm = lastfm;
         _duolingo = duolingo;
-        _blobClient = blobServiceClient;
+     //   _blobClient = blobServiceClient;
 
         this._wakatimeApiKey = config.GetValue<string>("WakaTime");
         this._lastfmApiKey = config.GetValue<string>("Lastfm");
     }
-
+/*
     public async Task GetFitbitActivity()
     {
         var container = this._blobClient.GetBlobContainerClient("fitbit");
@@ -90,7 +90,7 @@ public class achappeyService
                 }
             }
         }
-    }
+    }*/
 
     public class FitBitActivity
     {
@@ -101,7 +101,7 @@ public class achappeyService
 
     public async Task<IEnumerable<Profile>> GetProfiles()
     {
-        await GetFitbitActivity();
+       // await GetFitbitActivity();
 
         List<Profile> profiles = new List<Profile>();
 
