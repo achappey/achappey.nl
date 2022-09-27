@@ -4,7 +4,7 @@ import { ClipboardRegular, ClipboardCheckmarkRegular } from '@fluentui/react-ico
 import { TinyColor } from '@ctrl/tinycolor'
 import { ItemCard } from '../components/ItemCard'
 import { useCopyToClipboard } from 'usehooks-ts'
-import { SpinButton } from '@fluentui/react-components/unstable'
+import { SpinButton } from '@fluentui/react-components'
 import { PageHeader } from '../components/PageHeader'
 import { useTranslation } from 'react-i18next'
 
