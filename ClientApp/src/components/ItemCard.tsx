@@ -2,13 +2,6 @@ import { Label, makeStyles } from "@fluentui/react-components";
 import { Card, CardHeader, CardPreview, CardFooter } from "@fluentui/react-components/unstable";
 import { FunctionComponent } from "react";
 
-interface IItemCard {
-    buttons?: any[]
-    title: string
-    description?: any
-    image?: any
-}
-
 const useStyles = makeStyles({
     cardContainer: {
         marginRight: "8px",
