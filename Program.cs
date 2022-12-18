@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
-using Microsoft.Extensions.Azure;
 using Microsoft.OData.ModelBuilder;
 using achappey.Services;
 using achappey.Connectors.WakaTime;
@@ -36,18 +35,6 @@ builder.Services.AddSingleton<WakaTimeClient>();
 builder.Services.AddSingleton<DuolingoClient>();
 builder.Services.AddSingleton<LastfmClient>();
 builder.Services.AddSingleton<GitHubClient>(x => new GitHubClient(new ProductHeaderValue("achappey.nl")));
-
-builder.Services.AddAzureClients(builder =>
-  {
-    // Add a KeyVault client
-    //builder.AddSecretClient(keyVaultUrl);
-
-    // Add a storage account client
-   // builder.AddBlobServiceClient(blobStorage);
-
-    // Use the environment credential by default
-    //builder.UseCredential(new EnvironmentCredential());
-  });
 
 builder.Services.AddAutoMapper(typeof(achappey.GitHubProfile), typeof(achappey.DuolingoProfile));
 

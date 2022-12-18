@@ -4,9 +4,6 @@ using achappey.Connectors.Lastfm;
 using achappey.Connectors.Duolingo;
 using achappey.Extensions;
 using System.Globalization;
-using Azure.Storage.Blobs;
-using CsvHelper;
-using CsvHelper.Configuration;
 
 namespace achappey.Services;
 
@@ -19,8 +16,6 @@ public class achappeyService
     private readonly DuolingoClient _duolingo;
 
     private readonly LastfmClient _lastfm;
-
-    private readonly BlobServiceClient _blobClient;
 
     private readonly HttpClient _httpClient;
 
@@ -41,7 +36,6 @@ public class achappeyService
     IConfiguration config,
     LastfmClient lastfm,
     DuolingoClient duolingo)
-   // BlobServiceClient blobServiceClient)
 
     {
         _github = github;
@@ -50,59 +44,13 @@ public class achappeyService
         _httpClient = client;
         _lastfm = lastfm;
         _duolingo = duolingo;
-     //   _blobClient = blobServiceClient;
 
         this._wakatimeApiKey = config.GetValue<string>("WakaTime");
         this._lastfmApiKey = config.GetValue<string>("Lastfm");
     }
-/*
-    public async Task GetFitbitActivity()
-    {
-        var container = this._blobClient.GetBlobContainerClient("fitbit");
-
-        var files = container.GetBlobsAsync();
-
-
-        await foreach (var file in files)
-        {
-            var blobClient = container.GetBlobClient(file.Name);
-
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture);
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                await blobClient.DownloadToAsync(ms);
-
-                using (var reader = new StreamReader(ms))
-                {
-                    reader.ReadLine();
-
-                    using (var csv = new CsvReader(reader, config))
-                    {
-
-                        var dasddsdsas = await csv.ReadAsync();
-                        var lst = csv.GetRecords<FitBitActivity>().ToList();
-
-
-                        var dasdas = lst.Count();
-                    }
-
-                }
-            }
-        }
-    }*/
-
-    public class FitBitActivity
-    {
-        public DateTime Date { get; set; }
-
-        public string Steps { get; set; } = null!;
-    }
 
     public async Task<IEnumerable<Profile>> GetProfiles()
     {
-       // await GetFitbitActivity();
-
         List<Profile> profiles = new List<Profile>();
 
         var github = await this._github.User.Get(GITHUB_USERNAME);

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     }
 })
 
-export const ItemCard: FunctionComponent<IItemCard> = (props) => {
+export const ItemCard: FunctionComponent<any> = (props) => {
     const classes = useStyles()
     const header = <Label size="large">
         {props.title}
