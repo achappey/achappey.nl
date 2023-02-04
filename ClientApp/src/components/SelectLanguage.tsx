@@ -21,7 +21,7 @@ export const SelectLanguage: React.FunctionComponent = () => {
         Object.keys(languages).map(key => (
             <Option key={key} value={key}>{key}</Option>
         ))
-    ), [languages]);
+    ), []);
 
     return (
         <Tooltip content={t("Select a language")} relationship="label">

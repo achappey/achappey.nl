@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useMemo, useState } from 'react'
-import { makeStyles, Slider, Button, Link } from '@fluentui/react-components'
+import { makeStyles, Slider, Button } from '@fluentui/react-components'
 import { ClipboardRegular, ClipboardCheckmarkRegular } from '@fluentui/react-icons'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ItemCard } from '../components/ItemCard'

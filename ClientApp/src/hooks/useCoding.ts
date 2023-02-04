@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSessionStorage } from "usehooks-ts";
-
-
-
 
 export const useCoding = () => {
     const [coding, setCoding] = useSessionStorage<any | undefined>('coding', undefined);

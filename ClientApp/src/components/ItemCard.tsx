@@ -1,6 +1,5 @@
 import { Label, makeStyles } from "@fluentui/react-components";
 import { Card, CardHeader, CardPreview, CardFooter } from "@fluentui/react-components/unstable";
-import { FunctionComponent } from "react";
 
 const useStyles = makeStyles({
     cardContainer: {
