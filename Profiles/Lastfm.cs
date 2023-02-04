@@ -37,7 +37,7 @@ public class LastfmProfile : AutoMapper.Profile
             opt => opt.MapFrom(src => src.Artist.Name))
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? src.Id : string.Format("{0} - {1}", src.Artist.Name, src.Name)));
+            opt => opt.MapFrom(src => 20.GenerateRandomString()));
 
         CreateMap<achappey.Connectors.Lastfm.Models.Track, Activity>()
         .ConstructUsing(a => new Activity()
@@ -46,7 +46,7 @@ public class LastfmProfile : AutoMapper.Profile
         })
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => NetworkExtensions.LastFm + src.Date.Uts))
+            opt => opt.MapFrom(src => 20.GenerateRandomString()))
         .ForMember(
             dest => dest.Title,
             opt => opt.MapFrom(src => string.Format("{0} - {1} ({2})", src.Artist.Name, src.Name, src.Album.Name)))

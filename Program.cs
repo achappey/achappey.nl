@@ -13,7 +13,6 @@ var odataEndpoint = "odata";
 var version = "v1";
 
 var builder = WebApplication.CreateBuilder(args);
-string blobStorage = builder.Configuration["BlobStorage"];
 
 builder.Services.AddEndpointsApiExplorer();
 

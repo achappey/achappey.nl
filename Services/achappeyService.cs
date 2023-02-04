@@ -49,41 +49,42 @@ public class achappeyService
         this._lastfmApiKey = config.GetValue<string>("Lastfm");
     }
 
+
     public async Task<IEnumerable<Profile>> GetProfiles()
     {
-        List<Profile> profiles = new List<Profile>();
+        var profiles = new List<Profile>();
 
-        var github = await this._github.User.Get(GITHUB_USERNAME);
-
-        if (github != null)
-        {
-            profiles.Add(this._mapper.Map<Profile>(github));
-        }
-
-        var wakatime = await this._wakaTime.GetProfile(this._wakatimeApiKey);
-
-        if (wakatime != null)
-        {
-            profiles.Add(this._mapper.Map<Profile>(wakatime));
-        }
-
-        var lastFm = await this._lastfm.GetUser(this._lastfmApiKey, LASTFM_USERNAME);
-
-        if (lastFm != null)
-        {
-            profiles.Add(this._mapper.Map<Profile>(lastFm));
-        }
-
-        var duolingo = await this._duolingo.GetUser();
-
-        if (duolingo != null)
-        {
-            profiles.Add(this._mapper.Map<Profile>(duolingo));
-        }
-
+        profiles.AddRange(await GetProfilesFromGithub());
+        profiles.AddRange(await GetProfilesFromWakatime());
+        profiles.AddRange(await GetProfilesFromLastfm());
+        profiles.AddRange(await GetProfilesFromDuolingo());
         profiles.AddRange(NetworkExtensions.BaseProfiles);
 
         return profiles.OrderBy(a => a.Network);
+    }
+
+    private async Task<IEnumerable<Profile>> GetProfilesFromGithub()
+    {
+        var github = await this._github.User.Get(GITHUB_USERNAME);
+        return github == null ? Enumerable.Empty<Profile>() : new[] { this._mapper.Map<Profile>(github) };
+    }
+
+    private async Task<IEnumerable<Profile>> GetProfilesFromWakatime()
+    {
+        var wakatime = await this._wakaTime.GetProfile(this._wakatimeApiKey);
+        return wakatime == null ? Enumerable.Empty<Profile>() : new[] { this._mapper.Map<Profile>(wakatime) };
+    }
+
+    private async Task<IEnumerable<Profile>> GetProfilesFromLastfm()
+    {
+        var lastFm = await this._lastfm.GetUser(this._lastfmApiKey, LASTFM_USERNAME);
+        return lastFm == null ? Enumerable.Empty<Profile>() : new[] { this._mapper.Map<Profile>(lastFm) };
+    }
+
+    private async Task<IEnumerable<Profile>> GetProfilesFromDuolingo()
+    {
+        var duolingo = await this._duolingo.GetUser();
+        return duolingo == null ? Enumerable.Empty<Profile>() : new[] { this._mapper.Map<Profile>(duolingo) };
     }
 
     public async Task<IEnumerable<Repository>> GetRepositories()
@@ -97,12 +98,15 @@ public class achappeyService
 
     public async Task<IEnumerable<Activity>> GetActivities()
     {
+        List<Activity> mappedEvents = new List<Activity>();
+
         var eventItems = await this._github.Activity.Events.GetAllUserPerformed(GITHUB_USERNAME);
 
-        var mappedEvents = eventItems
+        var githubEvents = eventItems
         .Select(t => this._mapper.Map<Activity>(t))
         .ToList();
 
+        mappedEvents.AddRange(githubEvents);
         mappedEvents.AddRange(await this.GetMusicActivity());
         mappedEvents.AddRange(await this.GetCodingActivity());
 
@@ -110,12 +114,14 @@ public class achappeyService
 
         if (activeLanguage != null)
         {
-            mappedEvents.AddRange(this._mapper.Map<IEnumerable<Activity>>(activeLanguage));
+            var duolingoActivities = this._mapper.Map<IEnumerable<Activity>>(activeLanguage);
+            mappedEvents.AddRange(duolingoActivities);
         }
 
         return mappedEvents
         .OrderByDescending(a => a.CreatedAt);
     }
+
 
     public async Task<IEnumerable<Language>> GetLanguages()
     {
@@ -140,28 +146,34 @@ public class achappeyService
         return items?.Select(a => this._mapper.Map<Album>(a));
     }
 
-    public async Task<Dictionary<int, CodingActivitiy>?> GetCoding()
+    public async Task<Dictionary<int, CodingActivitiy>> GetCoding()
     {
-        var items = await this._wakaTime.GetSummaries(this._wakatimeApiKey, DateTime.Now.AddDays(-27).StartOfWeek(DayOfWeek.Monday), DateTime.Now);
+        var items = await this._wakaTime.GetSummaries(this._wakatimeApiKey,
+            DateTime.Now.AddDays(-27).StartOfWeek(DayOfWeek.Monday),
+            DateTime.Now);
 
-        return items?.GroupBy(a => ISOWeek.GetWeekOfYear(DateTime.Parse(a.Range.Date)))
-            .ToDictionary(a => a.Key, a => new CodingActivitiy()
+        if (items == null) return null;
+
+        return items.GroupBy(a => ISOWeek.GetWeekOfYear(DateTime.Parse(a.Range.Date)))
+            .ToDictionary(a => a.Key, a => new CodingActivitiy
             {
-                Languages = a.SelectMany(z => z.Languages).GroupBy(y => y.Name).Select(k =>
-                new CodingTime()
-                {
-                    Name = k.Key,
-                    Seconds = k.Sum(z => z.TotalSeconds)
-                }),
-                Editors = a.SelectMany(z => z.Editors).GroupBy(y => y.Name).Select(k =>
-                new CodingTime()
-                {
-                    Name = k.Key,
-                    Seconds = k.Sum(z => z.TotalSeconds)
-                })
-
+                Languages = a.SelectMany(z => z.Languages)
+                    .GroupBy(y => y.Name)
+                    .Select(k => new CodingTime
+                    {
+                        Name = k.Key,
+                        Seconds = k.Sum(z => z.TotalSeconds)
+                    }),
+                Editors = a.SelectMany(z => z.Editors)
+                    .GroupBy(y => y.Name)
+                    .Select(k => new CodingTime
+                    {
+                        Name = k.Key,
+                        Seconds = k.Sum(z => z.TotalSeconds)
+                    })
             });
     }
+
 
     private async Task<IEnumerable<Activity>> GetMusicActivity()
     {

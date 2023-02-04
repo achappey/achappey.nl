@@ -16,8 +16,7 @@ public class WakaTimeClient
     public async Task<IEnumerable<HeartBeat>> GetHeartBeats(string apiKey, DateTime date)
     {
         var json = await GetData<WakaTimeResponse<IEnumerable<HeartBeat>>>(apiKey,
-            string.Format("/api/v1/users/current/heartbeats?date={0}",
-            date.ToString("o")));
+            $"/api/v1/users/current/heartbeats?date={date.ToString("o")}");
 
         return json != null && json.Data != null ? json.Data : throw new Exception();
     }
@@ -25,8 +24,7 @@ public class WakaTimeClient
     public async Task<IEnumerable<Duration>> GetDurations(string apiKey, DateTime date)
     {
         var json = await GetData<WakaTimeResponse<IEnumerable<Duration>>>(apiKey,
-            string.Format("/api/v1/users/current/durations?date={0}&slice_by=category",
-            date.ToString("o")));
+            $"/api/v1/users/current/durations?date={date.ToString("o")}&slice_by=category");
 
         return json != null && json.Data != null ? json.Data : throw new Exception();
     }
@@ -34,9 +32,7 @@ public class WakaTimeClient
     public async Task<IEnumerable<Summary>> GetSummaries(string apiKey, DateTime startDate, DateTime endDate)
     {
         var json = await GetData<WakaTimeResponse<IEnumerable<Summary>>>(apiKey,
-            string.Format("/api/v1/users/current/summaries?start={0}&end={1}",
-            startDate.ToString("o"),
-            endDate.ToString("o")));
+            $"/api/v1/users/current/summaries?start={startDate.ToString("o")}&end={endDate.ToString("o")}");
 
         return json != null && json.Data != null ? json.Data : throw new Exception();
     }
@@ -50,8 +46,6 @@ public class WakaTimeClient
 
     private async Task<T?> GetData<T>(string apiKey, string url)
     {
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(apiKey);
-
         var httpRequestMessage = new HttpRequestMessage
         {
             Method = HttpMethod.Get,
@@ -59,7 +53,7 @@ public class WakaTimeClient
             Headers = {
                 { System.Net.HttpRequestHeader.Accept.ToString(), "application/json" },
                 { System.Net.HttpRequestHeader.ContentType.ToString(), "application/json" },
-                { "Authorization", string.Format("Basic {0}", System.Convert.ToBase64String(plainTextBytes)) }
+                { "Authorization",  $"Basic {Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(apiKey))}" }
             }
         };
 
@@ -69,8 +63,6 @@ public class WakaTimeClient
 
         return await getUserDataResult.Content.ReadFromJsonAsync<T>();
     }
-
-
 }
 
 

@@ -15,29 +15,28 @@ public class LastfmClient
 
     public async Task<IEnumerable<Track>?> GetRecentTracks(string apiKey, string username)
     {
-        var data = await this.GetLastfmData<LastfmRecentTracksResponse>(apiKey, "user.getrecenttracks", string.Format("user={0}", username));
+        var data = await this.GetLastfmData<LastfmRecentTracksResponse>(apiKey, "user.getrecenttracks", $"user={username}");
 
         return data?.RecentTracks?.Track;
     }
 
     public async Task<IEnumerable<TopAlbum>?> GetTopAlbums(string apiKey, string username, string period = "7day")
     {
-        var data = await this.GetLastfmData<LastfmTopAlbumsResponse>(apiKey, "user.gettopalbums", string.Format("user={0}&period={1}", username, period));
-
-        return data?.TopAlbums?.Album;
+        var response = await this.GetLastfmData<LastfmTopAlbumsResponse>(apiKey, "user.gettopalbums", $"user={username}&period={period}");
+        return response?.TopAlbums?.Album;
     }
+
 
     public async Task<User?> GetUser(string apiKey, string username)
     {
-        var data = await this.GetLastfmData<LastfmUserResponse>(apiKey, "user.getinfo", string.Format("user={0}", username));
+        var data = await this.GetLastfmData<LastfmUserResponse>(apiKey, "user.getinfo", $"user={username}");
 
         return data?.User;
     }
 
     private async Task<T?> GetLastfmData<T>(string apiKey, string method, string query)
     {
-        return await this._httpClient.GetFromJsonAsync<T>(
-            string.Format("{0}?method={1}&api_key={2}&format=json&{3}", BaseAddress, method, apiKey, query));
+        return await this._httpClient.GetFromJsonAsync<T>($"{BaseAddress}?method={method}&api_key={apiKey}&format=json&{query}");
     }
 
 }

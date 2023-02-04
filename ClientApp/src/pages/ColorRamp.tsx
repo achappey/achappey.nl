@@ -48,16 +48,22 @@ const toHexText = (color: string) => {
   return color.startsWith("#") ? color : `#${color}`;
 }
 
-const ColorRampView: FunctionComponent<IColorView> = (props) => {
-  const numberText = props.description ? `${props.number.toString()} (${props.description})` : props.number.toString();
-  const classes = useStyles()
 
-  return <div className={classes.color}
-    style={{ backgroundColor: props.color, color: props.dark ? "white" : "black" }}>
-    <div className={classes.itemText}>{numberText}</div>
-    <div className={classes.itemText}>{props.color}</div>
-  </div>
+const ColorRampView: React.FC<IColorView> = ({ description, number, color, dark }) => {
+  const numberText = description ? `${number.toString()} (${description})` : number.toString();
+  const classes = useStyles();
+
+  return (
+    <div 
+      className={classes.color}
+      style={{ backgroundColor: color, color: dark ? "white" : "black" }}
+    >
+      <div className={classes.itemText}>{numberText}</div>
+      <div className={classes.itemText}>{color}</div>
+    </div>
+  );
 };
+
 
 export const ColorRamp: FunctionComponent = () => {
   const [color, setColor] = useState("#FFA500")
@@ -122,8 +128,6 @@ export const ColorRamp: FunctionComponent = () => {
   return <div>
     <PageHeader title={t('ColorRamp')} />
     <div>
-      <p>Generates a color ramp from a single color. Compatible with Fluent UI React v9, as described <Link target='_blank' href="https://react.fluentui.dev/?path=/docs/concepts-developer-theming--page">here</Link>.
-        Built with <Link target='_blank' href="https://tinycolor.vercel.app/">TinyColor</Link>.</p>
     </div>
     <div className={classes.wrapper}>
       <div>

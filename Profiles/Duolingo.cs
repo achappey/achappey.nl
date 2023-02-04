@@ -33,7 +33,7 @@ public class DuolingoProfile : AutoMapper.Profile
                 : string.Format("Duolingo {0} ({1} XP)", b.EventType, b.Improvement),
             CreatedAt = b.DateTime,
             Network = NetworkExtensions.Duolingo,
-            Id = NetworkExtensions.Duolingo + b.DateTime.ToString()
+            Id = 20.GenerateRandomString()
         }));
     }
 }

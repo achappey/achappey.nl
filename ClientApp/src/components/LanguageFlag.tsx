@@ -15,23 +15,17 @@ const fallBacks: any = {
     sw: "tz"
 }
 
-export const LanguageFlag: React.FunctionComponent<ILanguageFlag> = (props) => {
+export const LanguageFlag: React.FunctionComponent<ILanguageFlag> = ({ code, name, description }) => {
     const flagProps = {
         height: 24
     }
 
-    const tooltipContent = <div key={props.code}>
-            <div>{props.name}</div>
-            <div>{props.description}</div>
-        </div>
-
-    return <Tooltip content={tooltipContent}
-        relationship="label">
-        <div>
-            <Flag code={props.code}
+    return (
+        <Tooltip key={code} content={<div>{name}<br />{description}</div>} relationship="label">
+            <Flag code={code}
                 {...flagProps}
-                fallback={<Flag code={fallBacks[props.code]} {...flagProps} />}
+                fallback={<Flag code={fallBacks[code]} {...flagProps} />}
             />
-        </div>
-    </Tooltip>
+        </Tooltip>
+    )
 }

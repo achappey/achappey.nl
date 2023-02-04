@@ -60,8 +60,6 @@ export const Home: FunctionComponent = () => {
           <p>
             {t("PrimaryDescription")}
           </p>
-
-          {t("SecondaryDescription")}
         </div>
       </ItemCard>
 

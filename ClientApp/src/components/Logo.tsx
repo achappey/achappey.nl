@@ -15,42 +15,26 @@ const useStyles = makeStyles({
     }
 })
 
-
 export const Logo: React.FunctionComponent = () => {
-    const classes = useStyles()
+    const classes = useStyles();
+    const letters = [
+        { letter: "A", src: "/assets/logo/A.png" },
+        { letter: "C", src: "/assets/logo/C.png" },
+        { letter: "H", src: "/assets/logo/H.png" },
+        { letter: "A", src: "/assets/logo/A.png" },
+        { letter: "P", src: "/assets/logo/P.png" },
+        { letter: "P", src: "/assets/logo/P.png" },
+        { letter: "E", src: "/assets/logo/E.png" },
+        { letter: "Y", src: "/assets/logo/Y.png" }
+    ];
 
-    return <div className={classes.logo}>
-        <Tooltip content={"A"}
-            relationship="label">
-            <Image src="/assets/logo/A.png" />
-        </Tooltip>
-        <Tooltip content={"C"}
-            relationship="label">
-            <Image src="/assets/logo/C.png" />
-        </Tooltip>
-        <Tooltip content={"H"}
-            relationship="label">
-            <Image src="/assets/logo/H.png" />
-        </Tooltip>
-        <Tooltip content={"Second A"}
-            relationship="label">
-            <Image src="/assets/logo/A.png" />
-        </Tooltip>
-        <Tooltip content={"P"}
-            relationship="label">
-            <Image src="/assets/logo/P.png" />
-        </Tooltip>
-        <Tooltip content={"Another P"}
-            relationship="label">
-            <Image src="/assets/logo/P.png" />
-        </Tooltip>
-        <Tooltip content={"E"}
-            relationship="label">
-            <Image src="/assets/logo/E.png" />
-        </Tooltip>
-        <Tooltip content={"Y"}
-            relationship="label">
-            <Image src="/assets/logo/Y.png" />
-        </Tooltip>
-    </div>
-}
+    return (
+        <div className={classes.logo}>
+            {letters.map(letter => (
+                <Tooltip key={letter.letter} content={letter.letter} relationship="label">
+                    <Image src={letter.src} />
+                </Tooltip>
+            ))}
+        </div>
+    );
+};

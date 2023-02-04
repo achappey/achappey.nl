@@ -1,5 +1,6 @@
 using achappey.Models;
 using achappey.Extensions;
+using System.Globalization;
 
 namespace achappey;
 
@@ -35,7 +36,7 @@ public class WakaTimeProfile : AutoMapper.Profile
         })
         .ForMember(
             dest => dest.Id,
-            opt => opt.MapFrom(src => NetworkExtensions.WakaTime + src.Language + src.Time.ToString()))
+            opt => opt.MapFrom(src => 20.GenerateRandomString()))
         .ForMember(
             dest => dest.Title,
             opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Language)

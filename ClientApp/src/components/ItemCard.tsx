@@ -16,24 +16,18 @@ const useStyles = makeStyles({
     }
 })
 
-export const ItemCard: FunctionComponent<any> = (props) => {
-    const classes = useStyles()
-    const header = <Label size="large">
-        {props.title}
-    </Label>
+export const ItemCard: React.FunctionComponent<any> = ({ title, image, description, children, buttons }) => {
+    const classes = useStyles();
 
-    return <Card className={classes.cardContainer} >
-        <CardHeader header={header}
-            image={props.image}
-            description={props.description}>
-        </CardHeader>
-        <CardPreview className={classes.preview}>
-            <div>
-                {props.children}
-            </div>
-        </CardPreview>
-        <CardFooter>
-            {props.buttons}
-        </CardFooter>
-    </Card>
-}
+    return (
+        <Card className={classes.cardContainer}>
+            <CardHeader
+                header={<Label size="large">{title}</Label>}
+                image={image}
+                description={description}
+            />
+            <CardPreview className={classes.preview}>{children}</CardPreview>
+            <CardFooter>{buttons}</CardFooter>
+        </Card>
+    );
+};
