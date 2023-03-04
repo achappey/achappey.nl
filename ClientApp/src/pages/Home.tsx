@@ -60,6 +60,12 @@ export const Home: FunctionComponent = () => {
           <p>
             {t("PrimaryDescription")}
           </p>
+          <p>
+            {t("SecondaryDescription")}
+          </p>
+          <p>
+            {t("ThirdDescription")}
+          </p>
         </div>
       </ItemCard>
 
